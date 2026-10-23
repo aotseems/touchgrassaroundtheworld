@@ -43,6 +43,7 @@ export function seedDatabase(db: BetterSqlite3.Database) {
     imageUrl:
       "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3c/Stonehenge2007_07_30.jpg/330px-Stonehenge2007_07_30.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
   });
+  
 }
 
 export function getTotalPlaces(db: BetterSqlite3.Database): number {

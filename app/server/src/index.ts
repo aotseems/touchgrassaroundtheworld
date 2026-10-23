@@ -41,7 +41,7 @@ app.post("/places", (req: Request, res: Response) => {
   res.status(200);
 });
 
-app.get("/grass-of-the-day", (req: Request, res: Response) => {
+app.get("/grass-of-the-day", (_req: Request, res: Response) => {
   try {
     const now = new Date();
     const year = now.getFullYear();
@@ -50,9 +50,9 @@ app.get("/grass-of-the-day", (req: Request, res: Response) => {
 
     const randomvalue = year + month + date;
     const totalplaces = getTotalPlaces(db);
-    const placeid = getRandomByValue(0, totalplaces, randomvalue);
+    const placeid = getRandomByValue(1, totalplaces, randomvalue);
 
-    const randomrow = getPlaceById(placeid);
+    const randomrow = getPlaceById(db,placeid);
 
     res.status(200).json(randomrow);
   } catch (err: any) {

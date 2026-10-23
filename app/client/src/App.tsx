@@ -1,70 +1,450 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import axios from "axios";
+import "./App.css";
 
-interface PlaceWithId {
-  id: number;
+type PageId = "discover" | "daily" | "catalog" | "scale" | "eco";
+
+interface Grass {
   name: string;
   location: string;
-  latitude: number;
-  longtitude: number;
-  biome: number;
-  description: number;
+  biome: string;
+  description: string;
   imageUrl: string;
+  latitude?: number;
+  longtitude?: number;
 }
 
-type Place = Omit<PlaceWithId, "id">;
+const starterGrasses: Grass[] = [
+  {
+    name: "Alpine meadow",
+    location: "Dolomites, Italy",
+    biome: "Alpine",
+    description: "A soft, high-altitude mix of wildflowers and cool-season grasses.",
+    imageUrl:
+      "https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=900&q=85",
+  },
+  {
+    name: "Emerald fescue",
+    location: "Lake District, England",
+    biome: "Temperate",
+    description: "Velvety green fescue carpeting the quiet paths of the fells.",
+    imageUrl:
+      "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=900&q=85",
+  },
+  {
+    name: "Pampas grass",
+    location: "Patagonia, Argentina",
+    biome: "Steppe",
+    description: "Resilient tussock grass shaped by the winds of the southern steppe.",
+    imageUrl:
+      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=85",
+  },
+  {
+    name: "Mossy forest floor",
+    location: "Olympic National Park, USA",
+    biome: "Temperate rainforest",
+    description: "A lush, living understory tucked beneath ancient evergreen trees.",
+    imageUrl:
+      "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=900&q=85",
+  },
+];
 
-export default function App() {
-  const [testplace, SetPlace] = useState<Place>();
-  const [places, setPlaces] = useState<Place[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+const navItems: { id: PageId; label: string; icon: string }[] = [
+  { id: "discover", label: "Discover", icon: "compass" },
+  { id: "daily", label: "Grass of the day", icon: "sun" },
+  { id: "catalog", label: "Grass catalog", icon: "leaf" },
+  { id: "scale", label: "Trail scale", icon: "mountain" },
+  { id: "eco", label: "Eco reminders", icon: "sprout" },
+];
+
+function Icon({ name, size = 18 }: { name: string; size?: number }) {
+  const paths: Record<string, ReactNode> = {
+    compass: <><circle cx="12" cy="12" r="9" /><path d="m16.2 7.8-2.7 5.7-5.7 2.7 2.7-5.7 5.7-2.7Z" /></>,
+    sun: <><circle cx="12" cy="12" r="4" /><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" /></>,
+    leaf: <><path d="M20 4c-8.2 0-13 3.6-13 9a6 6 0 0 0 6 6c5.4 0 9-4.8 7-15Z" /><path d="M4 21c2.2-4.8 5.6-8.1 11-11" /></>,
+    mountain: <><path d="m3 20 7-13 4 7 2-3 5 9H3Z" /><path d="m8.5 10 1.5 2 1.4-1.2" /></>,
+    sprout: <><path d="M12 21v-9" /><path d="M12 12c0-4-2.5-6-7-6 0 4.5 2 7 7 7m0-3c0-4 2.5-6 7-6 0 4.5-2 7-7 7" /><path d="M8 21h8" /></>,
+    pin: <><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" /><circle cx="12" cy="10" r="2.5" /></>,
+    arrow: <><path d="M7 17 17 7M7 7h10v10" /></>,
+    search: <><circle cx="10.8" cy="10.8" r="6.8" /><path d="m16 16 4 4" /></>,
+    check: <path d="m5 12 4 4L19 6" />,
+    chevron: <path d="m9 18 6-6-6-6" />,
+    menu: <><path d="M4 7h16M4 12h16M4 17h16" /></>,
+  };
+
+  return (
+    <svg
+      aria-hidden="true"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.7"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      {paths[name]}
+    </svg>
+  );
+}
+
+function App() {
+  const [activePage, setActivePage] = useState<PageId>("discover");
+  const [grasses, setGrasses] = useState(starterGrasses);
+  const [grassOfTheDay, setGrassOfTheDay] = useState(starterGrasses[0]);
+  const [apiNotice, setApiNotice] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [completedReminders, setCompletedReminders] = useState<number[]>([]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    let isMounted = true;
+
+    const fetchGrasses = async () => {
       try {
-        setLoading(true);
-        const res = await axios.get<Place[]>("http://localhost:3000/places");
-        setPlaces(res.data);
-        
-        const testres = await axios.get<Place>("http://localhost:3000/grass-of-the-day");
-        SetPlace(testres.data);
-        
-        setError(null);
-      } catch (err: any) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+        const [catalogResponse, dailyResponse] = await Promise.allSettled([
+          axios.get<Grass[]>("http://localhost:3000/places"),
+          axios.get<Grass>("http://localhost:3000/grass-of-the-day"),
+        ]);
+        if (!isMounted) return;
+
+        if (catalogResponse.status === "fulfilled" && catalogResponse.value.data.length) {
+          setGrasses(catalogResponse.value.data);
+        }
+        if (dailyResponse.status === "fulfilled" && dailyResponse.value.data?.name) {
+          setGrassOfTheDay(dailyResponse.value.data);
+        }
+
+        if (catalogResponse.status === "rejected" || dailyResponse.status === "rejected") {
+          setApiNotice("Showing field notes while the live grass catalog reconnects.");
+        }
+      } catch {
+        if (isMounted) {
+          setApiNotice("Showing field notes while the live grass catalog reconnects.");
+        }
       }
     };
 
-    fetchData();
-
+    void fetchGrasses();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>An error occured: {error}</p>;
-
-  return (
-    <div>
-      <h1>Touch Grass Around The World</h1>
-      <section>
-        <div>
-          {places.map((place) => (
-            <div key={place.name}>
-              <h2>{place.name}</h2>
-              <img src={place.imageUrl}></img>
-              <h3>{place.location}</h3>
-              <p>{place.description}</p>
-            </div>
-          ))}
-        </div>
-        <div>
-          {
-            <h2>{"Testing the place of the day: " + testplace?.name}</h2>
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
           }
+        });
+      },
+      { threshold: 0.12 },
+    );
+    document.querySelectorAll(".reveal").forEach((element) => observer.observe(element));
+    return () => observer.disconnect();
+  }, [activePage, grasses, searchTerm]);
+
+  const navigate = (page: PageId) => {
+    setActivePage(page);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const filteredGrasses = grasses.filter((grass) =>
+    `${grass.name} ${grass.location} ${grass.biome}`
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase()),
+  );
+
+  const renderCards = (items: Grass[]) => (
+    <div className="grass-grid">
+      {items.map((grass, index) => (
+        <article className="grass-card reveal" key={`${grass.name}-${grass.location}`}>
+          <div className="grass-card-image" style={{ backgroundImage: `url("${grass.imageUrl}")` }}>
+            <span className="biome-tag">{grass.biome}</span>
+            <button
+              className="save-button"
+              type="button"
+              aria-label={`Save ${grass.name}`}
+              onClick={() => navigate("daily")}
+            >
+              <Icon name="leaf" size={17} />
+            </button>
+          </div>
+          <div className="grass-card-copy">
+            <p className="eyebrow">{grass.location}</p>
+            <h3>{grass.name}</h3>
+            <p className="card-description">{grass.description}</p>
+            <button className="text-link" type="button" onClick={() => navigate("daily")}>
+              Explore this grass <Icon name="arrow" size={15} />
+            </button>
+          </div>
+          <span className="card-index">0{index + 1}</span>
+        </article>
+      ))}
+    </div>
+  );
+
+  const renderDiscover = () => (
+    <>
+      <section className="hero-panel reveal">
+        <div className="hero-copy">
+          <p className="eyebrow hero-eyebrow"><span className="live-dot" /> THE OUTDOORS ARE CALLING</p>
+          <h1>Find your<br /><em>wild.</em></h1>
+          <p className="hero-description">
+            A little more outside. A little less screen time. Discover the world's most
+            beautiful places to slow down and touch grass.
+          </p>
+          <button className="button button-light" type="button" onClick={() => navigate("catalog")}>
+            Explore the catalog <Icon name="arrow" size={16} />
+          </button>
+          <div className="hero-note"><Icon name="pin" size={15} /> A field guide for the curious</div>
+        </div>
+        <div className="hero-photo-caption">
+          <span>46° 28&apos; N&nbsp; 11° 48&apos; E</span>
+          <span>DOLOMITES, ITALY</span>
+        </div>
+        <div className="hero-photo-credit">A GOOD DAY TO GET LOST</div>
+      </section>
+
+      <section className="quick-stats reveal" aria-label="Explore the outdoors">
+        <div><span className="stat-value">08</span><span className="stat-label">unique biomes</span></div>
+        <span className="stat-divider" />
+        <div><span className="stat-value">{String(grasses.length).padStart(2, "0")}</span><span className="stat-label">field notes</span></div>
+        <span className="stat-divider" />
+        <div><span className="stat-value">∞</span><span className="stat-label">ways to wander</span></div>
+        <button className="stat-link" type="button" onClick={() => navigate("scale")}>
+          Find your next trail <Icon name="arrow" size={15} />
+        </button>
+      </section>
+
+      <section className="content-section">
+        <div className="section-heading reveal">
+          <div>
+            <p className="eyebrow">A WORLD OF GREEN</p>
+            <h2>Somewhere worth<br />taking the long way.</h2>
+          </div>
+          <button className="text-link section-link" type="button" onClick={() => navigate("catalog")}>
+            View all field notes <Icon name="arrow" size={15} />
+          </button>
+        </div>
+        {renderCards(grasses.slice(0, 3))}
+      </section>
+
+      <section className="reminder-banner reveal">
+        <div className="reminder-icon"><Icon name="sprout" size={21} /></div>
+        <div><p className="eyebrow">A GENTLE REMINDER</p><p>Leave it better than you found it.</p></div>
+        <button className="text-link" type="button" onClick={() => navigate("eco")}>
+          Trail etiquette <Icon name="arrow" size={15} />
+        </button>
+      </section>
+    </>
+  );
+
+  const renderDaily = () => (
+    <section className="page-section">
+      <div className="page-title reveal">
+        <p className="eyebrow"><span className="live-dot" /> YOUR DAILY DOSE OF OUTSIDE</p>
+        <h1>Grass of<br /><em>the day.</em></h1>
+        <p>One small reason to look up, step out, and see the world a little differently.</p>
+      </div>
+      <article className="daily-feature reveal">
+        <div className="daily-image" style={{ backgroundImage: `url("${grassOfTheDay.imageUrl}")` }}>
+          <span className="daily-image-label">TODAY&apos;S FIELD NOTE&nbsp; · &nbsp;NO. 001</span>
+        </div>
+        <div className="daily-copy">
+          <span className="biome-tag">{grassOfTheDay.biome}</span>
+          <p className="eyebrow daily-location"><Icon name="pin" size={14} /> {grassOfTheDay.location}</p>
+          <h2>{grassOfTheDay.name}</h2>
+          <p>{grassOfTheDay.description}</p>
+          <div className="daily-fact"><Icon name="sun" size={17} /><span>Take a moment to notice what's growing beneath your feet.</span></div>
+          <button className="button button-green" type="button" onClick={() => navigate("catalog")}>
+            Browse more grasses <Icon name="arrow" size={15} />
+          </button>
+        </div>
+      </article>
+      {apiNotice && <p className="api-notice">{apiNotice}</p>}
+    </section>
+  );
+
+  const renderCatalog = () => (
+    <section className="page-section">
+      <div className="page-title page-title-row reveal">
+        <div><p className="eyebrow">NOT ALL GRASS IS THE SAME</p><h1>The field<br /><em>guide.</em></h1></div>
+        <p>A growing collection of wild places and the greens that make them feel like nowhere else.</p>
+      </div>
+      <label className="search-box reveal">
+        <Icon name="search" size={19} />
+        <input
+          aria-label="Search the grass catalog"
+          placeholder="Search grasses, places, or biomes..."
+          value={searchTerm}
+          onChange={(event) => setSearchTerm(event.target.value)}
+        />
+        <span>{filteredGrasses.length} NOTES</span>
+      </label>
+      {filteredGrasses.length ? renderCards(filteredGrasses) : (
+        <div className="empty-state reveal">
+          <Icon name="compass" size={28} /><h2>No trails found.</h2>
+          <p>Try a different place, biome, or grass name.</p>
+        </div>
+      )}
+      {apiNotice && <p className="api-notice">{apiNotice}</p>}
+    </section>
+  );
+
+  const renderScale = () => (
+    <section className="page-section">
+      <div className="page-title reveal">
+        <p className="eyebrow">PICK YOUR PACE</p>
+        <h1>There's a trail<br /><em>for that.</em></h1>
+        <p>Big summit energy or a gentle leg-stretcher? Find a day outside that feels like yours.</p>
+      </div>
+      <div className="scale-list">
+        {[
+          { level: "01", name: "The wander", detail: "Easy does it", distance: "1–3 mi", note: "Gentle paths, forest loops & picnic-worthy meadows.", icon: "sprout" },
+          { level: "02", name: "The rambler", detail: "A little further", distance: "3–7 mi", note: "Rolling hills, scenic lookouts & room to roam.", icon: "compass" },
+          { level: "03", name: "The summit chaser", detail: "Earn those views", distance: "7–12 mi", note: "Steeper climbs, ridgeline views & a well-earned snack.", icon: "mountain" },
+        ].map((trail) => (
+          <article className="scale-card reveal" key={trail.level}>
+            <span className="scale-number">{trail.level}</span>
+            <span className="scale-icon"><Icon name={trail.icon} size={22} /></span>
+            <div className="scale-copy"><p className="eyebrow">{trail.detail}</p><h2>{trail.name}</h2><p>{trail.note}</p></div>
+            <span className="scale-distance">{trail.distance}</span>
+            <Icon name="chevron" size={18} />
+          </article>
+        ))}
+      </div>
+      <div className="safety-note reveal"><Icon name="sun" size={17} /><span>Always check local trail conditions and bring more water than you think you'll need.</span></div>
+    </section>
+  );
+
+  const renderEco = () => {
+    const reminders = [
+      "Stick to marked trails and give fragile plants room to grow.",
+      "Pack out everything you pack in — including the little things.",
+      "Give wildlife space. Quietly observe; never feed.",
+      "Leave flowers, rocks, and good memories right where they belong.",
+      "Share the trail kindly. A smile goes a long way.",
+    ];
+
+    return (
+      <section className="page-section">
+        <div className="page-title reveal">
+          <p className="eyebrow">GOOD OUTSIDE, GOOD HUMAN</p>
+          <h1>Take only<br /><em>the feeling.</em></h1>
+          <p>Little choices make a big difference. A pocket-sized guide to showing the outdoors some love.</p>
+        </div>
+        <div className="eco-layout">
+          <div className="eco-list">
+            {reminders.map((reminder, index) => {
+              const isComplete = completedReminders.includes(index);
+              return (
+                <button
+                  className={`eco-item reveal${isComplete ? " is-complete" : ""}`}
+                  key={reminder}
+                  type="button"
+                  aria-pressed={isComplete}
+                  onClick={() => setCompletedReminders((current) =>
+                    isComplete ? current.filter((item) => item !== index) : [...current, index],
+                  )}
+                >
+                  <span className="eco-check"><Icon name="check" size={16} /></span>
+                  <span className="eco-item-text">{reminder}</span>
+                  <span className="eco-item-number">0{index + 1}</span>
+                </button>
+              );
+            })}
+          </div>
+          <aside className="eco-card reveal">
+            <span className="eco-card-icon"><Icon name="sprout" size={24} /></span>
+            <p className="eyebrow">THE OUTDOORS ISN'T A BACKDROP</p>
+            <h2>It's someone else's home, too.</h2>
+            <p>Every trail is a shared space. Small acts of care help keep wild places wild for the next person who needs them.</p>
+            <div className="eco-progress"><span style={{ width: `${(completedReminders.length / reminders.length) * 100}%` }} /></div>
+            <span className="progress-label">{completedReminders.length} OF {reminders.length} GOOD HABITS NOTED</span>
+          </aside>
         </div>
       </section>
+    );
+  };
+
+  const pageRenderers: Record<PageId, () => ReactNode> = {
+    discover: renderDiscover,
+    daily: renderDaily,
+    catalog: renderCatalog,
+    scale: renderScale,
+    eco: renderEco,
+  };
+
+  return (
+    <div className="app-shell">
+      <aside className="sidebar">
+        <button className="brand" type="button" onClick={() => navigate("discover")} aria-label="Touch grass home">
+          <span className="brand-mark"><Icon name="sprout" size={21} /></span>
+          <span className="brand-name">touch grass<span>AROUND THE WORLD</span></span>
+        </button>
+
+        <p className="nav-caption">YOUR FIELD GUIDE</p>
+        <nav className="side-nav" aria-label="Main navigation">
+          {navItems.map((item) => (
+            <button
+              className={`nav-item${activePage === item.id ? " active" : ""}`}
+              key={item.id}
+              type="button"
+              aria-current={activePage === item.id ? "page" : undefined}
+              onClick={() => navigate(item.id)}
+            >
+              <Icon name={item.icon} size={18} />
+              <span>{item.label}</span>
+              {item.id === "daily" && <span className="nav-new">TODAY</span>}
+            </button>
+          ))}
+        </nav>
+
+        <div className="sidebar-bottom">
+          <div className="sidebar-tip">
+            <div className="tip-orbit"><Icon name="sun" size={19} /></div>
+            <p className="eyebrow">A THOUGHT FOR THE TRAIL</p>
+            <p>Look up. Breathe in.<br />You're right where you need to be.</p>
+          </div>
+          <div className="sidebar-footer"><span className="footer-dot" /> MADE FOR THE OUTSIDE</div>
+        </div>
+      </aside>
+
+      <main className="main-content">
+        <header className="topbar">
+          <div className="breadcrumb"><span>FIELD GUIDE</span><span className="breadcrumb-slash">/</span><span>{navItems.find((item) => item.id === activePage)?.label.toUpperCase()}</span></div>
+          <div className="topbar-right"><span className="weather-label"><Icon name="sun" size={15} /> PERFECTLY OUTSIDE WEATHER</span><span className="topbar-avatar">✳</span></div>
+        </header>
+        <div className="mobile-brand">
+          <Icon name="sprout" size={20} />
+          <span className="mobile-brand-copy"><span>touch grass</span><span className="mobile-brand-sub">AROUND THE WORLD</span></span>
+        </div>
+        <nav className="mobile-nav" aria-label="Main navigation">
+          {navItems.map((item) => (
+            <button
+              className={`mobile-nav-item${activePage === item.id ? " active" : ""}`}
+              key={item.id}
+              type="button"
+              aria-current={activePage === item.id ? "page" : undefined}
+              onClick={() => navigate(item.id)}
+            >
+              <Icon name={item.icon} size={17} /><span>{item.label}</span>
+            </button>
+          ))}
+        </nav>
+
+        <div className="page-content" key={activePage}>{pageRenderers[activePage]()}</div>
+
+        <footer className="main-footer">
+          <span>TAKE THE SCENIC ROUTE.</span><span>© TOUCH GRASS AROUND THE WORLD</span>
+        </footer>
+      </main>
     </div>
   );
 }
+
+export default App;

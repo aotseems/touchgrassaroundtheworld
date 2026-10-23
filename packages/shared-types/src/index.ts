@@ -1,4 +1,4 @@
-export interface PlaceWithID {
+export interface PlaceWithId {
   id: number;
   name: string;
   location: string;
@@ -6,7 +6,7 @@ export interface PlaceWithID {
   longtitude: number;
   biome: number;
   description: number;
-  imgaeUrl: number;
+  imageUrl: number;
 }
 
-export type Place = Omit<PlaceWithID, "id">;
+export type Place = Omit<PlaceWithId, "id">;

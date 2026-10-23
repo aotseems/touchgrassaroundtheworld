@@ -1,49 +1,25 @@
 import express, { Request, Response } from "express";
-import Database from "better-sqlite3";
-import { Place } from "@repo/shared-types";
+import cors from "cors";
+import { initDatabase, getAllPlaces, addPlace, seedDatabase } from "./database";
+import { getRandomByValue } from "./random";
 
 // The path to database should not be hardcoded.
-const db = new Database("database.db");
-db.exec(
-  `CREATE TABLE IF NOT EXISTS places (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    location TEXT NOT NULL,
-    latitude REAL NOT NULL,
-    longtitude REAL NOT NULL,
-    biome TEXT NOT NULL,
-    description TEXT NOT NULL,
-    imageUrl TEXT NOT NULL
-  );`,
-);
+const db = initDatabase("database.db");
 
-// Try populating the database for testing purposes.
-const insertion = db.prepare(
-  `INSERT INTO places (name, location, latitude, longtitude, biome, description, imageUrl)
-  VALUES (@name, @location, @latitude, @longtitude, @biome, @description, @imageUrl)`,
-);
-insertion.run({
-  name: "Stonehenge Grass",
-  location: "Salisbury Plain, Wiltshire, England",
-  latitude: 51.178889,
-  longtitude: -1.826111,
-  biome: "Temporal Broadleaf",
-  description: "Bruh",
-  imageUrl:
-    "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3c/Stonehenge2007_07_30.jpg/330px-Stonehenge2007_07_30.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
-});
+// Try seeding the database.
+seedDatabase(db);
 
 const app = express();
 const port = 3000;
 app.use(express.json());
 
+// CORS middleware
+app.use(cors());
+
 // We list all of the available grasses here.
 app.get("/places", (_req: Request, res: Response) => {
   try {
-    const query = db.prepare<[], Place>(
-      "SELECT name, location, latitude, longtitude, biome, description, imageUrl FROM places",
-    );
-    const places: Place[] = query.all();
+    const places = getAllPlaces(db);
     res.status(200).json(places);
   } catch (err: any) {
     console.error(err.message);
@@ -53,8 +29,29 @@ app.get("/places", (_req: Request, res: Response) => {
 
 // Admins and community can add new grasses here.
 app.post("/places", (req: Request, res: Response) => {
-  // TODO:
-  res.status(503);
+  const place = req.body as Place;
+  addPlace(db, place);
+  res.status(200);
+});
+
+app.get("/grass-of-the-day", (req: Request, res: Response) => {
+  try {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth() + 1;
+    const date = now.getDate();
+
+    const randomvalue = year + month + date;
+    const totalplaces = 20;
+    const placeid = getRandomByValue(0, totalplaces, randomvalue);
+
+    const randomrow = null;
+
+    res.status(200).json(randomrow);
+  } catch (err: any) {
+    console.error(err.message);
+    res.status(500);
+  }
 });
 
 app.listen(port, () => {

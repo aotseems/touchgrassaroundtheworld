@@ -1,0 +1,19 @@
+{
+  "name": "touchgrassaroundtheworld",
+  "private": true,
+  "workspaces": [
+    "app/*",
+    "packages/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aotseems/touchgrassaroundtheworld.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aotseems/touchgrassaroundtheworld/issues"
+  },
+  "homepage": "https://github.com/aotseems/touchgrassaroundtheworld#readme"
+}

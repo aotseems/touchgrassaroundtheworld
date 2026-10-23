@@ -1,4 +1,2 @@
-# touchgrassaroundtheworld
-touch grass
-
-lmbfao
+# Touch Grass Around The World
+Go touch some grass.

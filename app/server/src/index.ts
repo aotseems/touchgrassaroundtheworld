@@ -1,6 +1,13 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
-import { initDatabase, getAllPlaces, addPlace, seedDatabase } from "./database";
+import {
+  initDatabase,
+  getAllPlaces,
+  getTotalPlaces,
+  getPlaceById,
+  addPlace,
+  seedDatabase,
+} from "./database";
 import { getRandomByValue } from "./random";
 
 // The path to database should not be hardcoded.
@@ -42,10 +49,10 @@ app.get("/grass-of-the-day", (req: Request, res: Response) => {
     const date = now.getDate();
 
     const randomvalue = year + month + date;
-    const totalplaces = 20;
+    const totalplaces = getTotalPlaces(db);
     const placeid = getRandomByValue(0, totalplaces, randomvalue);
 
-    const randomrow = null;
+    const randomrow = getPlaceById(placeid);
 
     res.status(200).json(randomrow);
   } catch (err: any) {

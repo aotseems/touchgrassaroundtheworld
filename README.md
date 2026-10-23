@@ -1,6 +1,2 @@
-<<<<<<< HEAD
-# this is live shared working
-=======
-# Touch Grass Around The World
-Go touch some grass.
->>>>>>> 76965702b199b13334e1befacddfc920731ab5f5
+# tldr to run make sure npm is install vite also and have npx and run
+# npx vite go to localhost on the terminal

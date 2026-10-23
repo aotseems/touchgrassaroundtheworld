@@ -15,5 +15,12 @@
   "bugs": {
     "url": "https://github.com/aotseems/touchgrassaroundtheworld/issues"
   },
-  "homepage": "https://github.com/aotseems/touchgrassaroundtheworld#readme"
+  "homepage": "https://github.com/aotseems/touchgrassaroundtheworld#readme",
+  "devDependencies": {
+    "vite": "^8.3.5"
+  },
+  "scripts": {
+    "dev": "vite"
+  }
+
 }

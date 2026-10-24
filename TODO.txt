@@ -4,13 +4,22 @@ complete :
         getallplaces
 
     frontend :
-
-todo :
-
-    backend :
-
-    frontend :
         eco reminders
         proof of touch
         catalog and scale
         grass of the day web
+
+todo :
+
+    backend :
+        Source
+        ติดต่อทําแผนพาเที่ยว
+
+    frontend :
+        settings :
+            ภาษา
+            Grass setting
+            Theme setting
+        
+        Filter
+        

@@ -1,5 +1,5 @@
 import Icon from "./components/Icon";
-import "./TrailScale.css";
+import "./TrailScale";
 
 const trails = [
   {

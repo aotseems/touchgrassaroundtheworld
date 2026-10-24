@@ -96,7 +96,10 @@
   font-family: var(--sans);
   font-size: 12px;
   cursor: pointer;
-  transition: color 180ms ease, background 180ms ease, border-color 180ms ease;
+  transition:
+    color 180ms ease,
+    background 180ms ease,
+    border-color 180ms ease;
 }
 
 .nav-item:hover {
@@ -130,7 +133,11 @@
   padding: 18px 15px;
   border: 1px solid var(--line);
   border-radius: 9px;
-  background: linear-gradient(145deg, rgba(197, 238, 137, 0.055), transparent 82%);
+  background: linear-gradient(
+    145deg,
+    rgba(197, 238, 137, 0.055),
+    transparent 82%
+  );
 }
 
 .tip-orbit {
@@ -262,8 +269,17 @@
   overflow: hidden;
   align-items: center;
   background-color: #29382c;
-  background-image: linear-gradient(90deg, rgba(12, 20, 15, 0.94) 0%, rgba(14, 21, 15, 0.82) 34%, rgba(14, 21, 15, 0.14) 100%), url("https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=1800&q=90");
-  background-position: center, 50% 55%;
+  background-image:
+    linear-gradient(
+      90deg,
+      rgba(12, 20, 15, 0.94) 0%,
+      rgba(14, 21, 15, 0.82) 34%,
+      rgba(14, 21, 15, 0.14) 100%
+    ),
+    url("https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=1800&q=90");
+  background-position:
+    center,
+    50% 55%;
   background-size: cover;
 }
 
@@ -329,7 +345,9 @@
   font-size: 10px;
   font-weight: 650;
   cursor: pointer;
-  transition: transform 180ms ease, background 180ms ease;
+  transition:
+    transform 180ms ease,
+    background 180ms ease;
 }
 
 .button:hover {
@@ -484,7 +502,9 @@
   overflow: hidden;
   border: 1px solid var(--line);
   background: #171d17;
-  transition: transform 200ms ease, border-color 200ms ease;
+  transition:
+    transform 200ms ease,
+    border-color 200ms ease;
 }
 
 .grass-card:hover {
@@ -540,7 +560,9 @@
   background: rgba(14, 19, 14, 0.58);
   color: #f1f3e9;
   cursor: pointer;
-  transition: background 160ms ease, color 160ms ease;
+  transition:
+    background 160ms ease,
+    color 160ms ease;
 }
 
 .save-button:hover {
@@ -567,7 +589,7 @@
   letter-spacing: -0.25px;
 }
 
-.card-description {
+.card-brief {
   min-height: 34px;
   color: #969e90;
   font-size: 9px;
@@ -823,7 +845,9 @@
   padding: 16px 20px;
   border: 1px solid var(--line);
   background: #171e18;
-  transition: border-color 180ms ease, background 180ms ease;
+  transition:
+    border-color 180ms ease,
+    background 180ms ease;
 }
 
 .scale-card:hover {
@@ -911,7 +935,9 @@
   color: #d8ddd1;
   text-align: left;
   cursor: pointer;
-  transition: border-color 180ms ease, background 180ms ease;
+  transition:
+    border-color 180ms ease,
+    background 180ms ease;
 }
 
 .eco-item:hover,
@@ -928,7 +954,10 @@
   place-items: center;
   border: 1px solid #56614f;
   color: transparent;
-  transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
+  transition:
+    background 160ms ease,
+    color 160ms ease,
+    border-color 160ms ease;
 }
 
 .eco-item.is-complete .eco-check {
@@ -957,7 +986,12 @@
 .eco-card {
   padding: 22px;
   border: 1px solid rgba(197, 238, 137, 0.12);
-  background: linear-gradient(145deg, rgba(197, 238, 137, 0.09), rgba(197, 238, 137, 0.025) 55%, transparent);
+  background: linear-gradient(
+    145deg,
+    rgba(197, 238, 137, 0.09),
+    rgba(197, 238, 137, 0.025) 55%,
+    transparent
+  );
 }
 
 .eco-card-icon {
@@ -1016,7 +1050,9 @@
 .reveal {
   opacity: 0;
   transform: translateY(18px);
-  transition: opacity 650ms ease, transform 650ms cubic-bezier(0.2, 0.7, 0.25, 1);
+  transition:
+    opacity 650ms ease,
+    transform 650ms cubic-bezier(0.2, 0.7, 0.25, 1);
 }
 
 .reveal.is-visible {
@@ -1037,8 +1073,14 @@
 }
 
 @keyframes page-enter {
-  from { opacity: 0.55; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0.55;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (max-width: 1100px) {
@@ -1166,7 +1208,9 @@
 
   .hero-panel {
     min-height: 415px;
-    background-position: center, 58% center;
+    background-position:
+      center,
+      58% center;
   }
 
   .hero-copy {
@@ -1267,7 +1311,7 @@
     font-size: 14px;
   }
 
-  .card-description {
+  .card-brief {
     min-height: 0;
   }
 

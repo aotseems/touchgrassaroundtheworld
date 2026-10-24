@@ -3,9 +3,10 @@ export interface PlaceWithId {
   name: string;
   location: string;
   latitude: number;
-  longtitude: number;
+  longitude: number;
   biome: number;
-  description: number;
+  brief: string;
+  description: string;
   imageUrl: number;
 }
 

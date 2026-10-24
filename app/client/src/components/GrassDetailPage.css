@@ -331,6 +331,132 @@
   line-height: 1.65;
 }
 
+/* Official Tourism Guides & Local Authorities Sources */
+.detail-sources-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sources-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.sources-count-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border: 1px solid rgba(197, 238, 137, 0.25);
+  border-radius: 4px;
+  background: rgba(197, 238, 137, 0.08);
+  color: var(--green);
+  font-family: var(--sans);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.9px;
+}
+
+.sources-intro {
+  margin: 0;
+  color: #a6af9f;
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.detail-sources-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.source-link-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 16px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: #141b14;
+  color: #eff1ea;
+  text-decoration: none;
+  transition:
+    border-color 180ms ease,
+    background 180ms ease,
+    transform 180ms ease;
+}
+
+.source-link-item:hover {
+  border-color: rgba(197, 238, 137, 0.35);
+  background: #19231a;
+  transform: translateY(-2px);
+}
+
+.source-link-icon {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  place-items: center;
+  border: 1px solid rgba(197, 238, 137, 0.2);
+  border-radius: 4px;
+  background: rgba(197, 238, 137, 0.07);
+  color: var(--green);
+}
+
+.source-link-content {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
+}
+
+.source-hostname {
+  font-family: var(--heading);
+  font-size: 13px;
+  font-weight: 600;
+  color: #edf0e7;
+  letter-spacing: -0.2px;
+}
+
+.source-url {
+  font-size: 10px;
+  color: #8c9685;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.source-link-item:hover .source-url {
+  color: #adb6a6;
+}
+
+.source-arrow {
+  display: flex;
+  align-items: center;
+  color: #7d8876;
+  flex: 0 0 auto;
+  transition:
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.source-link-item:hover .source-arrow {
+  color: var(--green);
+  transform: translate(2px, -2px);
+}
+
+.sources-empty-note {
+  margin: 0;
+  color: #8c9685;
+  font-size: 11px;
+  font-style: italic;
+  line-height: 1.6;
+}
+
 /* Interactive Touch Grass Card */
 .detail-touch-card {
   display: flex;

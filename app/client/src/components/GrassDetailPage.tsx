@@ -157,6 +157,8 @@ export default function GrassDetailPage({
 
   const descriptionText = grass.description;
 
+  const sourcesList: string[] = Array.isArray(grass.sources) ? grass.sources : [];
+
   return (
     <article className="grass-detail-page">
       {/* Top action bar */}
@@ -293,6 +295,71 @@ export default function GrassDetailPage({
                 </div>
               </div>
             </div>
+          </section>
+
+          {/* Official Tourism Guides & Local Authorities */}
+          <section className="detail-card detail-sources-card">
+            <div className="sources-header">
+              <div>
+                <p className="eyebrow">FIELD GUIDES & AUTHORITIES</p>
+                <h2>Official sources & tourism guides</h2>
+              </div>
+              {sourcesList.length > 0 && (
+                <span className="sources-count-badge">
+                  {sourcesList.length}{" "}
+                  {sourcesList.length === 1 ? "SOURCE" : "SOURCES"}
+                </span>
+              )}
+            </div>
+
+            {sourcesList.length > 0 ? (
+              <>
+                <p className="sources-intro">
+                  Official tourism boards, local park authorities, and verified
+                  regional guides for this destination:
+                </p>
+                <div className="detail-sources-grid">
+                  {sourcesList.map((sourceUrl, idx) => {
+                    let hostname: string;
+                    try {
+                      const parsed = new URL(sourceUrl);
+                      hostname = parsed.hostname.replace(/^www\./, "");
+                    } catch {
+                      hostname = "Official Source";
+                    }
+
+                    return (
+                      <a
+                        key={`${sourceUrl}-${idx}`}
+                        href={sourceUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="source-link-item"
+                        aria-label={`Open official guide at ${hostname}`}
+                      >
+                        <div className="source-link-icon">
+                          <Icon name="compass" size={18} />
+                        </div>
+                        <div className="source-link-content">
+                          <span className="source-hostname">{hostname}</span>
+                          <span className="source-url" title={sourceUrl}>
+                            {sourceUrl}
+                          </span>
+                        </div>
+                        <span className="source-arrow" aria-hidden="true">
+                          <Icon name="arrow" size={15} />
+                        </span>
+                      </a>
+                    );
+                  })}
+                </div>
+              </>
+            ) : (
+              <p className="sources-empty-note">
+                No external tourism guides or local authority sources have been
+                attached to this field note yet.
+              </p>
+            )}
           </section>
 
           {/* Interactive Touch Grass Logging */}

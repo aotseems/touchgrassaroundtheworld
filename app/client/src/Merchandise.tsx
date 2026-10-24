@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
+import { createPortal } from "react-dom";
 import Icon from "./components/Icon";
 import "./Merchandise.css";
 
@@ -328,6 +329,16 @@ export default function Merchandise() {
   const [checkoutName, setCheckoutName] = useState("");
   const [checkoutEmail, setCheckoutEmail] = useState("");
   const [checkoutAddress, setCheckoutAddress] = useState("");
+
+  useEffect(() => {
+    if (!isCartOpen && !isCheckoutOpen && !orderReceipt) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isCartOpen, isCheckoutOpen, orderReceipt]);
 
   // Sync cart to localStorage
   useEffect(() => {
@@ -795,6 +806,7 @@ export default function Merchandise() {
 
       {/* Cart Drawer */}
       {isCartOpen && (
+        createPortal(
         <div className="cart-backdrop" onClick={() => setIsCartOpen(false)}>
           <div className="cart-drawer" onClick={(e) => e.stopPropagation()}>
             <div className="cart-drawer-header">
@@ -949,11 +961,14 @@ export default function Merchandise() {
               </div>
             )}
           </div>
-        </div>
+        </div>,
+        document.body,
+        )
       )}
 
       {/* Checkout Modal (Success payment only without needing credit card) */}
       {isCheckoutOpen && (
+        createPortal(
         <div className="checkout-modal-backdrop" onClick={() => setIsCheckoutOpen(false)}>
           <div className="checkout-modal" onClick={(e) => e.stopPropagation()}>
             <div className="checkout-modal-header">
@@ -1077,11 +1092,14 @@ export default function Merchandise() {
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body,
+        )
       )}
 
       {/* Order Confirmation / Success Receipt Modal */}
       {orderReceipt && (
+        createPortal(
         <div className="checkout-modal-backdrop" onClick={() => setOrderReceipt(null)}>
           <div className="checkout-modal" onClick={(e) => e.stopPropagation()}>
             <div className="order-success-card">
@@ -1151,7 +1169,9 @@ export default function Merchandise() {
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body,
+        )
       )}
 
       {/* Floating Toast Alert */}

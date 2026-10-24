@@ -168,12 +168,28 @@ export function adjustHex(hex: string, amount: number): string {
 // Apply CSS variables to root
 export function applyTheme(theme: ThemeConfig) {
   const root = document.documentElement;
+  const accentHex = theme.accent.replace("#", "");
+  const normalizedAccent =
+    /^[0-9a-f]{3}$/i.test(accentHex)
+      ? accentHex
+          .split("")
+          .map((channel) => channel + channel)
+          .join("")
+      : accentHex;
+  const accentRgb = /^[0-9a-f]{6}$/i.test(normalizedAccent)
+    ? `${parseInt(normalizedAccent.slice(0, 2), 16)}, ${parseInt(normalizedAccent.slice(2, 4), 16)}, ${parseInt(normalizedAccent.slice(4, 6), 16)}`
+    : "197, 238, 137";
   root.style.setProperty("--page-bg", theme.pageBg);
   root.style.setProperty("--sidebar-bg", theme.sidebarBg);
   root.style.setProperty("--panel-bg", theme.panelBg);
   root.style.setProperty("--panel-raised", theme.panelRaised);
   root.style.setProperty("--green", theme.accent);
   root.style.setProperty("--green-dim", theme.accentDim);
+  root.style.setProperty("--accent-rgb", accentRgb);
+  root.style.setProperty(
+    "--accent-contrast",
+    isLightHex(theme.accent) ? "#111611" : "#ffffff",
+  );
   root.style.setProperty("--text-main", theme.textMain);
   root.style.setProperty("--muted", theme.textMuted);
   root.style.setProperty("--line", theme.line);

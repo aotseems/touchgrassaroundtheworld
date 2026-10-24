@@ -4,10 +4,7 @@ import "./App.css";
 import Icon from "./components/Icon";
 import GrassDetailPage from "./components/GrassDetailPage";
 import Catalog, { GrassCardGrid } from "./Catalog";
-import EcoReminder, { EcoReminderBanner } from "./EcoReminder";
 import GrassOfTheDay from "./GrassOfTheDay";
-import GrassAroundMe from "./GrassAroundMe";
-import TrailScale from "./TrailScale";
 import Merchandise from "./Merchandise";
 import ThemeSettings from "./components/ThemeSettings";
 import {
@@ -17,15 +14,12 @@ import {
 } from "./theme";
 import type Grass from "./grass";
 
-type PageId = "discover" | "daily" | "around-me" | "catalog" | "scale" | "eco" | "merchandise";
+type PageId = "discover" | "daily" | "catalog" | "merchandise";
 
 const navItems: { id: PageId; label: string; icon: string }[] = [
   { id: "discover", label: "Discover", icon: "compass" },
   { id: "daily", label: "Grass of the day", icon: "sun" },
-  { id: "around-me", label: "Grass around me", icon: "radar" },
   { id: "catalog", label: "Grass catalog", icon: "leaf" },
-  { id: "scale", label: "Trail scale", icon: "mountain" },
-  { id: "eco", label: "Eco reminders", icon: "sprout" },
   { id: "merchandise", label: "Merchandise", icon: "shopping-bag" },
 ];
 
@@ -36,7 +30,6 @@ function App() {
   const [grassOfTheDay, setGrassOfTheDay] = useState<Grass | null>(null);
   const [apiNotice, setApiNotice] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [completedReminders, setCompletedReminders] = useState<number[]>([]);
   const [theme, setTheme] = useState<ThemeConfig>(() => getSavedTheme());
   const [isThemeModalOpen, setIsThemeModalOpen] = useState(false);
 
@@ -125,14 +118,6 @@ function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const toggleReminder = (index: number) => {
-    setCompletedReminders((current) =>
-      current.includes(index)
-        ? current.filter((item) => item !== index)
-        : [...current, index],
-    );
-  };
-
   const renderDiscover = () => (
     <>
       <section className="hero-panel reveal">
@@ -187,9 +172,9 @@ function App() {
         <button
           className="stat-link"
           type="button"
-          onClick={() => navigate("scale")}
+          onClick={() => navigate("catalog")}
         >
-          Find your next trail <Icon name="arrow" size={15} />
+          Browse the field guide <Icon name="arrow" size={15} />
         </button>
       </section>
 
@@ -217,7 +202,6 @@ function App() {
         />
       </section>
 
-      <EcoReminderBanner onOpenReminders={() => navigate("eco")} />
     </>
   );
 
@@ -383,8 +367,6 @@ function App() {
                 onSelectGrass={openGrassDetail}
                 onBrowseCatalog={() => navigate("catalog")}
               />
-            ) : activePage === "around-me" ? (
-              <GrassAroundMe />
             ) : activePage === "catalog" ? (
               <Catalog
                 grasses={grasses}
@@ -393,15 +375,8 @@ function App() {
                 onSearchTermChange={setSearchTerm}
                 apiNotice={apiNotice}
               />
-            ) : activePage === "scale" ? (
-              <TrailScale />
-            ) : activePage === "merchandise" ? (
-              <Merchandise />
             ) : (
-              <EcoReminder
-                completedReminders={completedReminders}
-                onToggleReminder={toggleReminder}
-              />
+              <Merchandise />
             )
           )}
         </div>

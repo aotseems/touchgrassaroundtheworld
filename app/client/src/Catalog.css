@@ -27,7 +27,7 @@
 
 .grass-card:hover {
   transform: translateY(-3px);
-  border-color: rgba(197, 238, 137, 0.24);
+  border-color: rgba(var(--accent-rgb, 197, 238, 137), 0.24);
 }
 
 .grass-card-image {
@@ -85,7 +85,7 @@
 
 .save-button:hover {
   background: var(--green);
-  color: #192118;
+  color: var(--accent-contrast, #192118);
 }
 
 .grass-card-copy {
@@ -146,7 +146,7 @@
 }
 
 .search-box:focus-within {
-  border-color: rgba(197, 238, 137, 0.35);
+  border-color: rgba(var(--accent-rgb, 197, 238, 137), 0.35);
 }
 
 .search-box input {
@@ -179,7 +179,7 @@
 }
 
 .search-clear-btn:hover {
-  background: rgba(197, 238, 137, 0.2);
+  background: rgba(var(--accent-rgb, 197, 238, 137), 0.2);
   color: var(--green);
 }
 
@@ -211,7 +211,7 @@
 
 .filter-group:hover,
 .filter-group:focus-within {
-  border-color: rgba(197, 238, 137, 0.3);
+  border-color: rgba(var(--accent-rgb, 197, 238, 137), 0.3);
   background: #1a221b;
 }
 
@@ -301,15 +301,15 @@
 }
 
 .catalog-chip:hover {
-  border-color: rgba(197, 238, 137, 0.25);
+  border-color: rgba(var(--accent-rgb, 197, 238, 137), 0.25);
   background: #1a221b;
   color: #e5e8dc;
   transform: translateY(-1px);
 }
 
 .catalog-chip.is-active {
-  border-color: rgba(197, 238, 137, 0.38);
-  background: rgba(197, 238, 137, 0.12);
+  border-color: rgba(var(--accent-rgb, 197, 238, 137), 0.38);
+  background: rgba(var(--accent-rgb, 197, 238, 137), 0.12);
   color: var(--green);
   font-weight: 600;
 }
@@ -323,8 +323,8 @@
   gap: 12px;
   margin-bottom: 18px;
   padding: 10px 14px;
-  border: 1px solid rgba(197, 238, 137, 0.14);
-  background: rgba(197, 238, 137, 0.04);
+  border: 1px solid rgba(var(--accent-rgb, 197, 238, 137), 0.14);
+  background: rgba(var(--accent-rgb, 197, 238, 137), 0.04);
 }
 
 .active-filters-list {
@@ -347,9 +347,9 @@
   align-items: center;
   gap: 6px;
   padding: 3px 9px;
-  border: 1px solid rgba(197, 238, 137, 0.24);
+  border: 1px solid rgba(var(--accent-rgb, 197, 238, 137), 0.24);
   border-radius: 4px;
-  background: rgba(197, 238, 137, 0.08);
+  background: rgba(var(--accent-rgb, 197, 238, 137), 0.08);
   color: var(--green);
   font-size: 10px;
 }

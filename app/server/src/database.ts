@@ -69,7 +69,7 @@ const starterPlaces: GrassWithoutId[] = [
     ],
   },
 ];
-
+  
 function formatRow(row: any): Grass {
   if (!row) return row;
   let sources: string[] = [];

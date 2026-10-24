@@ -20,7 +20,7 @@
 
 .theme-btn:hover {
   border-color: var(--green);
-  background: rgba(197, 238, 137, 0.12);
+  background: rgba(var(--accent-rgb, 197, 238, 137), 0.12);
   color: var(--green);
   transform: translateY(-1px);
 }
@@ -46,7 +46,7 @@
 
 .sidebar-theme-btn:hover {
   border-color: var(--green);
-  background: rgba(197, 238, 137, 0.12);
+  background: rgba(var(--accent-rgb, 197, 238, 137), 0.12);
   color: var(--green);
 }
 
@@ -208,7 +208,7 @@
   gap: 5px;
   padding: 3px 8px;
   border-radius: 4px;
-  background: rgba(197, 238, 137, 0.15);
+  background: rgba(var(--accent-rgb, 197, 238, 137), 0.15);
   color: var(--green);
   font-size: 9px;
   font-weight: 700;
@@ -237,7 +237,7 @@
   border: 0;
   border-radius: 6px;
   background: var(--green);
-  color: #121812;
+  color: var(--accent-contrast, #121812);
   font-size: 10px;
   font-weight: 700;
   cursor: default;
@@ -272,7 +272,7 @@
 
 .theme-preset-card.active {
   border-color: var(--green);
-  box-shadow: 0 0 16px rgba(197, 238, 137, 0.25);
+  box-shadow: 0 0 16px rgba(var(--accent-rgb, 197, 238, 137), 0.25);
   background: var(--panel-raised);
 }
 
@@ -420,7 +420,7 @@
 
 .btn-harmonize:hover {
   border-color: var(--green);
-  background: rgba(197, 238, 137, 0.12);
+  background: rgba(var(--accent-rgb, 197, 238, 137), 0.12);
   color: var(--green);
 }
 
@@ -457,7 +457,7 @@
   border: 0;
   border-radius: 6px;
   background: var(--green);
-  color: #121812;
+  color: var(--accent-contrast, #121812);
   font-size: 11px;
   font-weight: 700;
   cursor: pointer;
@@ -465,7 +465,7 @@
 }
 
 .btn-theme-done:hover {
-  box-shadow: 0 4px 14px rgba(197, 238, 137, 0.35);
+  box-shadow: 0 4px 14px rgba(var(--accent-rgb, 197, 238, 137), 0.35);
   transform: translateY(-1px);
 }
 

@@ -287,9 +287,7 @@ export default function Merchandise() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [sortBy, setSortBy] = useState<string>("featured");
   
-  // Image Mode Preference: "prefer-local" | "prefer-url"
-  const [globalImagePref, setGlobalImagePref] = useState<"local" | "url">("local");
-  // Per-item override toggles
+  const globalImagePref = "url";
   const [itemImageOverrides, setItemImageOverrides] = useState<Record<string, "local" | "url">>({});
 
   // Selected options per item: { [itemId]: { [optionName]: selectedValue } }
@@ -561,24 +559,6 @@ export default function Merchandise() {
         </div>
 
         <div className="merch-header-actions">
-          {/* Image source switch */}
-          <div className="image-mode-toggle" title="Toggle between local SVG illustrations and online link images">
-            <button
-              type="button"
-              className={`image-mode-btn ${globalImagePref === "local" ? "active" : ""}`}
-              onClick={() => setGlobalImagePref("local")}
-            >
-              📁 Local Assets
-            </button>
-            <button
-              type="button"
-              className={`image-mode-btn ${globalImagePref === "url" ? "active" : ""}`}
-              onClick={() => setGlobalImagePref("url")}
-            >
-              🌐 Link URLs
-            </button>
-          </div>
-
           {/* Cart Trigger */}
           <button
             className="merch-cart-btn"
@@ -807,7 +787,7 @@ export default function Merchandise() {
       {/* Cart Drawer */}
       {isCartOpen && (
         createPortal(
-        <div className="cart-backdrop" onClick={() => setIsCartOpen(false)}>
+        <div className="cart-backdrop merch-theme-surface" onClick={() => setIsCartOpen(false)}>
           <div className="cart-drawer" onClick={(e) => e.stopPropagation()}>
             <div className="cart-drawer-header">
               <div className="cart-drawer-title">
@@ -969,7 +949,7 @@ export default function Merchandise() {
       {/* Checkout Modal (Success payment only without needing credit card) */}
       {isCheckoutOpen && (
         createPortal(
-        <div className="checkout-modal-backdrop" onClick={() => setIsCheckoutOpen(false)}>
+        <div className="checkout-modal-backdrop merch-theme-surface" onClick={() => setIsCheckoutOpen(false)}>
           <div className="checkout-modal" onClick={(e) => e.stopPropagation()}>
             <div className="checkout-modal-header">
               <h3>Trail Express Checkout</h3>
@@ -1100,7 +1080,7 @@ export default function Merchandise() {
       {/* Order Confirmation / Success Receipt Modal */}
       {orderReceipt && (
         createPortal(
-        <div className="checkout-modal-backdrop" onClick={() => setOrderReceipt(null)}>
+        <div className="checkout-modal-backdrop merch-theme-surface" onClick={() => setOrderReceipt(null)}>
           <div className="checkout-modal" onClick={(e) => e.stopPropagation()}>
             <div className="order-success-card">
               <div className="order-success-icon">

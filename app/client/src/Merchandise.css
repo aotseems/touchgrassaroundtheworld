@@ -137,35 +137,6 @@
   color: var(--green);
 }
 
-/* Image Mode Selector in Header */
-.image-mode-toggle {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: #141b14;
-}
-
-.image-mode-btn {
-  padding: 6px 12px;
-  border: 0;
-  border-radius: 6px;
-  background: transparent;
-  color: var(--muted);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  cursor: pointer;
-  transition: all 150ms ease;
-}
-
-.image-mode-btn.active {
-  background: rgba(var(--accent-rgb, 197, 238, 137), 0.15);
-  color: var(--green);
-}
-
 /* Toolbar & Search */
 .merch-toolbar {
   display: flex;
@@ -1358,6 +1329,258 @@ html.theme-light
     .order-success-icon
   ) {
   color: var(--green);
+}
+
+html .merch-container {
+  color: var(--text-main);
+}
+
+html .merch-container :is(
+    h1,
+    h2,
+    h3,
+    h4,
+    p,
+    span,
+    label,
+    button,
+    a,
+    select,
+    input,
+    option,
+    strong
+  ),
+html .merch-theme-surface :is(
+    h1,
+    h2,
+    h3,
+    h4,
+    p,
+    span,
+    label,
+    button,
+    a,
+    select,
+    input,
+    option,
+    strong
+  ) {
+  color: var(--text-main);
+}
+
+html .merch-container :is(
+    .merch-header-copy p,
+    .merch-count-notice,
+    .merch-card-desc,
+    .merch-option-label,
+    .cart-item-options,
+    .cart-summary-line,
+    .checkout-field label,
+    .payment-demo-box p,
+    .order-success-card > p,
+    .receipt-meta-row,
+    .receipt-item-options
+  ),
+html .merch-theme-surface :is(
+    .merch-count-notice,
+    .cart-item-options,
+    .cart-summary-line,
+    .checkout-field label,
+    .payment-demo-box p,
+    .order-success-card > p,
+    .receipt-meta-row,
+    .receipt-item-options
+  ) {
+  color: var(--muted);
+}
+
+html .merch-container :is(
+    .merch-eyebrow,
+    .merch-header-copy h1 em,
+    .merch-card-price,
+    .merch-option-label span:last-child,
+    .merch-cart-badge,
+    .cart-item-price,
+    .cart-summary-line.total span:last-child,
+    .payment-demo-header,
+    .payment-demo-pill,
+    .receipt-total-row span:last-child,
+    .cart-empty-icon,
+    .order-success-icon
+  ),
+html .merch-theme-surface :is(
+    .merch-eyebrow,
+    .merch-card-price,
+    .cart-item-price,
+    .cart-summary-line.total span:last-child,
+    .payment-demo-header,
+    .payment-demo-pill,
+    .receipt-total-row span:last-child,
+    .cart-empty-icon,
+    .order-success-icon
+  ) {
+  color: var(--green);
+}
+
+html .merch-container :is(.merch-header, .merch-card) {
+  background: var(--panel-bg);
+  border-color: var(--line);
+}
+
+html .merch-container .merch-header {
+  background:
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(var(--accent-rgb, 197, 238, 137), 0.16),
+      transparent 40%
+    ),
+    linear-gradient(135deg, var(--panel-raised), var(--panel-bg));
+}
+
+html .merch-container :is(
+    .merch-search-box,
+    .merch-sort-select,
+    .category-chip,
+    .merch-size-btn,
+    .merch-edition-select,
+    .merch-toggle-img-btn,
+    .cart-coupon-input
+  ),
+html .merch-theme-surface :is(
+    .cart-coupon-input,
+    .checkout-field input,
+    .checkout-field select
+  ) {
+  background: var(--panel-raised);
+  border-color: var(--line);
+  color: var(--text-main);
+}
+
+html .merch-container :is(
+    .category-chip.active,
+    .merch-size-btn.active,
+    .checkout-autofill-btn,
+    .cart-coupon-btn
+  ),
+html .merch-theme-surface :is(.checkout-autofill-btn, .cart-coupon-btn) {
+  background: rgba(var(--accent-rgb, 197, 238, 137), 0.14);
+  border-color: rgba(var(--accent-rgb, 197, 238, 137), 0.4);
+  color: var(--green);
+}
+
+html .merch-container :is(
+    .merch-btn-buy,
+    .cart-checkout-btn,
+    .checkout-btn-pay,
+    .order-success-done-btn
+  ),
+html .merch-theme-surface :is(
+    .merch-btn-buy,
+    .cart-checkout-btn,
+    .checkout-btn-pay,
+    .order-success-done-btn
+  ) {
+  background: var(--green);
+  border-color: var(--green);
+  color: var(--accent-contrast);
+}
+
+html .merch-container :is(
+    .merch-btn-cart,
+    .merch-cart-btn,
+    .cart-close-btn,
+    .cart-item-delete,
+    .cart-qty-btn,
+    .checkout-btn-cancel
+  ),
+html .merch-theme-surface :is(
+    .merch-btn-cart,
+    .merch-cart-btn,
+    .cart-close-btn,
+    .cart-item-delete,
+    .cart-qty-btn,
+    .checkout-btn-cancel
+  ) {
+  background-color: var(--panel-raised);
+  border-color: var(--line);
+  color: var(--text-main);
+}
+
+html .merch-container .merch-cart-badge {
+  background: var(--green);
+  color: var(--accent-contrast);
+}
+
+html .merch-container .merch-cart-btn:hover .merch-cart-badge {
+  background: var(--accent-contrast);
+  color: var(--green);
+}
+
+html .merch-container :is(.merch-btn-cart:hover, .cart-item-delete:hover),
+html .merch-theme-surface :is(.merch-btn-cart:hover, .cart-item-delete:hover) {
+  border-color: var(--green);
+  color: var(--green);
+}
+
+html .merch-container .merch-card-media {
+  background: var(--panel-raised);
+}
+
+html .merch-container .merch-card-img {
+  filter: saturate(0.88) contrast(0.97);
+}
+
+html.theme-light .merch-container .merch-card-img {
+  filter: saturate(0.78) brightness(1.04) contrast(0.96);
+}
+
+html .merch-container .merch-card-media::after {
+  background: linear-gradient(
+    135deg,
+    rgba(var(--accent-rgb, 197, 238, 137), 0.2),
+    transparent 76%
+  );
+  mix-blend-mode: color;
+}
+
+html .merch-container .merch-source-tag,
+html .merch-container .merch-category-pill {
+  background: color-mix(in srgb, var(--panel-bg) 88%, transparent);
+  border-color: var(--line);
+  color: var(--text-main);
+}
+
+html .merch-theme-surface .cart-drawer {
+  background: var(--sidebar-bg);
+  border-color: var(--line);
+}
+
+html .merch-theme-surface :is(.cart-drawer-footer, .order-receipt-box) {
+  background: var(--panel-raised);
+}
+
+html .merch-theme-surface :is(
+    .cart-item-row,
+    .checkout-modal,
+    .order-success-card
+  ) {
+  background: var(--panel-bg);
+  border-color: var(--line);
+}
+
+html .merch-theme-surface .cart-item-thumb {
+  background: var(--panel-raised);
+  filter: saturate(0.88) contrast(0.97);
+}
+
+html.theme-light .merch-theme-surface .cart-item-thumb {
+  filter: saturate(0.78) brightness(1.04) contrast(0.96);
+}
+
+html .merch-container :is(input, select)::placeholder,
+html .merch-theme-surface :is(input, select)::placeholder {
+  color: var(--muted);
+  opacity: 1;
 }
 
 /* Keyframes */

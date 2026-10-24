@@ -2,19 +2,10 @@ import { useEffect, useState, type ReactNode } from "react";
 import axios from "axios";
 import "./App.css";
 import Icon from "./components/Icon";
+import GrassDetailPage from "./components/GrassDetailPage";
+import type Grass from "./grass";
 
 type PageId = "discover" | "daily" | "catalog" | "scale" | "eco";
-
-interface Grass {
-  name: string;
-  location: string;
-  biome: string;
-  latitude: number;
-  longtitude: number;
-  brief: string;
-  description: string;
-  imageUrl: string;
-}
 
 const navItems: { id: PageId; label: string; icon: string }[] = [
   { id: "discover", label: "Discover", icon: "compass" },
@@ -26,6 +17,7 @@ const navItems: { id: PageId; label: string; icon: string }[] = [
 
 function App() {
   const [activePage, setActivePage] = useState<PageId>("discover");
+  const [selectedGrassId, setSelectedGrassId] = useState<number | null>(null);
   const [grasses, setGrasses] = useState<Grass[]>([]);
   const [grassOfTheDay, setGrassOfTheDay] = useState<Grass | null>(null);
   const [apiNotice, setApiNotice] = useState("");
@@ -38,7 +30,7 @@ function App() {
     const fetchGrasses = async () => {
       try {
         const [catalogResponse, dailyResponse] = await Promise.allSettled([
-          axios.get<Grass[]>("http://localhost:3000/places"),
+          axios.get<Grass[]>("http://localhost:3000/grasses"),
           axios.get<Grass>("http://localhost:3000/grass-of-the-day"),
         ]);
         if (!isMounted) return;
@@ -95,10 +87,21 @@ function App() {
       .querySelectorAll(".reveal")
       .forEach((element) => observer.observe(element));
     return () => observer.disconnect();
-  }, [activePage, grasses, searchTerm]);
+  }, [activePage, grasses, searchTerm, selectedGrassId]);
 
   const navigate = (page: PageId) => {
+    setSelectedGrassId(null);
     setActivePage(page);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const openGrassDetail = (id: number) => {
+    setSelectedGrassId(id);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const closeGrassDetail = () => {
+    setSelectedGrassId(null);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -113,7 +116,17 @@ function App() {
       {items.map((grass, index) => (
         <article
           className="grass-card reveal"
-          key={`${grass.name}-${grass.location}`}
+          key={`${grass.id}-${grass.name}-${grass.location}`}
+          onClick={() => openGrassDetail(grass.id)}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              openGrassDetail(grass.id);
+            }
+          }}
+          aria-label={`View field note for ${grass.name}`}
         >
           <div
             className="grass-card-image"
@@ -124,7 +137,10 @@ function App() {
               className="save-button"
               type="button"
               aria-label={`Save ${grass.name}`}
-              onClick={() => navigate("daily")}
+              onClick={(event) => {
+                event.stopPropagation();
+                openGrassDetail(grass.id);
+              }}
             >
               <Icon name="leaf" size={17} />
             </button>
@@ -136,7 +152,10 @@ function App() {
             <button
               className="text-link"
               type="button"
-              onClick={() => navigate("daily")}
+              onClick={(event) => {
+                event.stopPropagation();
+                openGrassDetail(grass.id);
+              }}
             >
               Explore this grass <Icon name="arrow" size={15} />
             </button>
@@ -285,13 +304,27 @@ function App() {
               Take a moment to notice what's growing beneath your feet.
             </span>
           </div>
-          <button
-            className="button button-green"
-            type="button"
-            onClick={() => navigate("catalog")}
+          <div
+            className="daily-actions"
+            style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginTop: "18px" }}
           >
-            Browse more grasses <Icon name="arrow" size={15} />
-          </button>
+            {grassOfTheDay?.id && (
+              <button
+                className="button button-light"
+                type="button"
+                onClick={() => openGrassDetail(grassOfTheDay.id)}
+              >
+                View full field note <Icon name="arrow" size={15} />
+              </button>
+            )}
+            <button
+              className="button button-green"
+              type="button"
+              onClick={() => navigate("catalog")}
+            >
+              Browse more grasses <Icon name="arrow" size={15} />
+            </button>
+          </div>
         </div>
       </article>
       {apiNotice && <p className="api-notice">{apiNotice}</p>}
@@ -509,10 +542,10 @@ function App() {
         <nav className="side-nav" aria-label="Main navigation">
           {navItems.map((item) => (
             <button
-              className={`nav-item${activePage === item.id ? " active" : ""}`}
+              className={`nav-item${activePage === item.id && selectedGrassId === null ? " active" : ""}`}
               key={item.id}
               type="button"
-              aria-current={activePage === item.id ? "page" : undefined}
+              aria-current={activePage === item.id && selectedGrassId === null ? "page" : undefined}
               onClick={() => navigate(item.id)}
             >
               <Icon name={item.icon} size={18} />
@@ -545,11 +578,32 @@ function App() {
           <div className="breadcrumb">
             <span>FIELD GUIDE</span>
             <span className="breadcrumb-slash">/</span>
-            <span>
-              {navItems
-                .find((item) => item.id === activePage)
-                ?.label.toUpperCase()}
-            </span>
+            {selectedGrassId !== null ? (
+              <>
+                <button
+                  className="breadcrumb-button"
+                  type="button"
+                  onClick={closeGrassDetail}
+                >
+                  {navItems
+                    .find((item) => item.id === activePage)
+                    ?.label.toUpperCase()}
+                </button>
+                <span className="breadcrumb-slash">/</span>
+                <span>
+                  {grasses.find((g) => g.id === selectedGrassId)?.name.toUpperCase() ||
+                    (grassOfTheDay?.id === selectedGrassId
+                      ? grassOfTheDay.name.toUpperCase()
+                      : `NOTE #${selectedGrassId}`)}
+                </span>
+              </>
+            ) : (
+              <span>
+                {navItems
+                  .find((item) => item.id === activePage)
+                  ?.label.toUpperCase()}
+              </span>
+            )}
           </div>
           <div className="topbar-right">
             <span className="weather-label">
@@ -568,10 +622,10 @@ function App() {
         <nav className="mobile-nav" aria-label="Main navigation">
           {navItems.map((item) => (
             <button
-              className={`mobile-nav-item${activePage === item.id ? " active" : ""}`}
+              className={`mobile-nav-item${activePage === item.id && selectedGrassId === null ? " active" : ""}`}
               key={item.id}
               type="button"
-              aria-current={activePage === item.id ? "page" : undefined}
+              aria-current={activePage === item.id && selectedGrassId === null ? "page" : undefined}
               onClick={() => navigate(item.id)}
             >
               <Icon name={item.icon} size={17} />
@@ -580,8 +634,24 @@ function App() {
           ))}
         </nav>
 
-        <div className="page-content" key={activePage}>
-          {pageRenderers[activePage]()}
+        <div
+          className="page-content"
+          key={selectedGrassId !== null ? `grass-${selectedGrassId}` : activePage}
+        >
+          {selectedGrassId !== null ? (
+            <GrassDetailPage
+              grassId={selectedGrassId}
+              initialGrass={
+                grasses.find((g) => g.id === selectedGrassId) ||
+                (grassOfTheDay?.id === selectedGrassId ? grassOfTheDay : null)
+              }
+              allGrasses={grasses}
+              onBack={closeGrassDetail}
+              onSelectGrass={openGrassDetail}
+            />
+          ) : (
+            pageRenderers[activePage]()
+          )}
         </div>
 
         <footer className="main-footer">

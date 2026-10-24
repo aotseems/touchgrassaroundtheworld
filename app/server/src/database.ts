@@ -1,8 +1,8 @@
-import { Place } from "@repo/shared-types";
+import { Grass, GrassWithoutId } from "@repo/shared-types";
 import Database from "better-sqlite3";
 import BetterSqlite3 from "better-sqlite3";
 
-const starterPlaces: Place[] = [
+const starterPlaces: GrassWithoutId[] = [
   {
     name: "Alpine meadow",
     location: "Dolomites, Italy",
@@ -53,7 +53,7 @@ const starterPlaces: Place[] = [
 export function initDatabase(path: string): BetterSqlite3.Database {
   const db = new Database(path);
   db.exec(
-    `CREATE TABLE IF NOT EXISTS places (
+    `CREATE TABLE IF NOT EXISTS grasses (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
       location TEXT NOT NULL,
@@ -68,18 +68,16 @@ export function initDatabase(path: string): BetterSqlite3.Database {
   return db;
 }
 
-export function getAllPlaces(db: BetterSqlite3.Database): Place[] {
-  const query = db.prepare<[], Place>(
-    "SELECT name, location, latitude, longitude, biome, brief, description, imageUrl FROM places",
-  );
+export function getAllGrasses(db: BetterSqlite3.Database): Grass[] {
+  const query = db.prepare<[], Grass>("SELECT * FROM grasses");
   return query.all();
 }
 
 export function seedDatabase(db: BetterSqlite3.Database) {
-  if (getAllPlaces(db).length !== 0) return;
+  if (getAllGrasses(db).length !== 0) return;
 
   const insertion = db.prepare(
-    `INSERT INTO places (name, location, latitude, longitude, biome, brief, description, imageUrl)
+    `INSERT INTO grasses (name, location, latitude, longitude, biome, brief, description, imageUrl)
     VALUES (@name, @location, @latitude, @longitude, @biome, @brief, @description, @imageUrl)`,
   );
   starterPlaces.forEach((place) => {
@@ -87,24 +85,24 @@ export function seedDatabase(db: BetterSqlite3.Database) {
   });
 }
 
-export function getTotalPlaces(db: BetterSqlite3.Database): number {
-  const query = db.prepare("SELECT MAX(id) AS max_id FROM places").get() as any;
+export function getGrassesCount(db: BetterSqlite3.Database): number {
+  const query = db
+    .prepare("SELECT MAX(id) AS max_id FROM grasses")
+    .get() as any;
   const maxid = query?.max_id ?? 0;
 
   return maxid;
 }
 
-export function getPlaceById(db: BetterSqlite3.Database, id: number): Place {
-  const query = db.prepare(
-    "SELECT name, location, latitude, longitude, biome, brief, description, imageUrl FROM places WHERE id = ?",
-  );
+export function getGrassById(db: BetterSqlite3.Database, id: number): Grass {
+  const query = db.prepare("SELECT * FROM grasses WHERE id = ?");
   return query.get(id);
 }
 
-export function addPlace(db: BetterSqlite3.Database, place: Place) {
+export function addGrass(db: BetterSqlite3.Database, grass: GrassWithoutId) {
   const insertion = db.prepare(
-    `INSERT INTO places (name, location, latitude, longitude, biome, brief, description, imageUrl)
+    `INSERT INTO grasses (name, location, latitude, longitude, biome, brief, description, imageUrl)
     VALUES (@name, @location, @latitude, @longitude, @biome, @brief, @description, @imageUrl)`,
   );
-  insertion.run(place);
+  insertion.run(grass);
 }

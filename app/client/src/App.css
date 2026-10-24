@@ -217,6 +217,23 @@
   color: #666e61;
 }
 
+.breadcrumb-button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #778071;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+  transition: color 150ms ease;
+}
+
+.breadcrumb-button:hover {
+  color: var(--green);
+}
+
 .breadcrumb span:first-child {
   color: #778071;
 }
@@ -502,6 +519,7 @@
   overflow: hidden;
   border: 1px solid var(--line);
   background: #171d17;
+  cursor: pointer;
   transition:
     transform 200ms ease,
     border-color 200ms ease;

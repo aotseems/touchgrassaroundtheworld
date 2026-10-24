@@ -2,10 +2,10 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 import {
   initDatabase,
-  getAllPlaces,
-  getTotalPlaces,
-  getPlaceById,
-  addPlace,
+  getAllGrasses,
+  getGrassesCount,
+  getGrassById,
+  addGrass,
   seedDatabase,
 } from "./database";
 import { getRandomByValue } from "./random";
@@ -24,20 +24,34 @@ app.use(express.json());
 app.use(cors());
 
 // We list all of the available grasses here.
-app.get("/places", (_req: Request, res: Response) => {
+app.get("/grasses", (_req: Request, res: Response) => {
   try {
-    const places = getAllPlaces(db);
-    res.status(200).json(places);
+    const grasses = getAllGrasses(db);
+    res.status(200).json(grasses);
   } catch (err: any) {
     console.error(err.message);
     res.status(500);
   }
 });
 
+app.get("/grass-by-id", (req: Request, res: Response) => {
+  try {
+    const id = req.query.id ? parseInt(req.query.id as string, 10) : 0;
+    const grass = getGrassById(db, id);
+    if (!grass) {
+      res.status(404).json({ error: "Grass not found" });
+      return;
+    }
+    res.status(200).json(grass);
+  } catch (err: any) {
+    res.status(404).json({ error: "Grass not found" });
+  }
+});
+
 // Admins and community can add new grasses here.
-app.post("/places", (req: Request, res: Response) => {
-  const place = req.body as Place;
-  addPlace(db, place);
+app.post("/grasses", (req: Request, res: Response) => {
+  const grass = req.body as GrassWithoutId;
+  addGrass(db, grass);
   res.status(200);
 });
 
@@ -48,13 +62,13 @@ app.get("/grass-of-the-day", (_req: Request, res: Response) => {
     const month = now.getMonth() + 1;
     const date = now.getDate();
 
-    const randomvalue = year + month + date;
-    const totalplaces = getTotalPlaces(db);
-    const placeid = getRandomByValue(1, totalplaces, randomvalue);
+    const randomId = year + month + date;
+    const grassesCount = getGrassesCount(db);
+    const grassId = getRandomByValue(1, grassesCount, randomId);
 
-    const randomrow = getPlaceById(db,placeid);
+    const randomGrass = getGrassById(db, grassId);
 
-    res.status(200).json(randomrow);
+    res.status(200).json(randomGrass);
   } catch (err: any) {
     console.error(err.message);
     res.status(500);
@@ -64,4 +78,3 @@ app.get("/grass-of-the-day", (_req: Request, res: Response) => {
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
-

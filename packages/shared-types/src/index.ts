@@ -1,13 +1,13 @@
-export interface PlaceWithId {
+export interface Grass {
   id: number;
   name: string;
   location: string;
   latitude: number;
   longitude: number;
-  biome: number;
+  biome: string;
   brief: string;
   description: string;
-  imageUrl: number;
+  imageUrl: string;
 }
 
-export type Place = Omit<PlaceWithId, "id">;
+export type GrassWithoutId = Omit<Grass, "id">;

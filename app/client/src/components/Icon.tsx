@@ -12,6 +12,8 @@ export default function Icon({ name, size = 18 }: { name: string; size?: number 
     search: <><circle cx="10.8" cy="10.8" r="6.8" /><path d="m16 16 4 4" /></>,
     check: <path d="m5 12 4 4L19 6" />,
     chevron: <path d="m9 18 6-6-6-6" />,
+    "arrow-left": <><path d="M19 12H5" /><path d="m12 19-7-7 7-7" /></>,
+    share: <><circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" /><path d="m8.59 13.51 6.83 3.98M15.41 6.51l-6.82 3.98" /></>,
     menu: <><path d="M4 7h16M4 12h16M4 17h16" /></>,
   };
 

@@ -9,4 +9,5 @@ export default interface Grass {
   brief: string;
   description: string;
   imageUrl: string;
+  sources: string[];
 }

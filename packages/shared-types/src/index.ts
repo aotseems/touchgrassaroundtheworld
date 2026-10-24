@@ -8,6 +8,7 @@ export interface Grass {
   brief: string;
   description: string;
   imageUrl: string;
+  sources: string[];
 }
 
 export type GrassWithoutId = Omit<Grass, "id">;

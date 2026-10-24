@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#1f2c20" />
+      <stop offset="100%" stop-color="#131913" />
+    </radialGradient>
+    <linearGradient id="shirtGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2a382c" />
+      <stop offset="50%" stop-color="#212c22" />
+      <stop offset="100%" stop-color="#182119" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c5ee89" />
+      <stop offset="100%" stop-color="#96bd63" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#000" flood-opacity="0.5" />
+    </filter>
+  </defs>
+
+  <rect width="600" height="600" fill="url(#bgGlow)" />
+  <circle cx="300" cy="300" r="220" fill="none" stroke="#c5ee89" stroke-opacity="0.08" stroke-dasharray="4 6" />
+
+  <!-- T-Shirt Silhouette -->
+  <g filter="url(#shadow)">
+    <path d="M210 115 
+             C240 135 360 135 390 115 
+             L470 170 
+             L425 240 
+             L385 215 
+             L385 470 
+             C385 475 380 480 375 480 
+             L225 480 
+             C220 480 215 475 215 470 
+             L215 215 
+             L175 240 
+             L130 170 
+             Z" 
+          fill="url(#shirtGrad)" stroke="#3e4f3f" stroke-width="2.5" />
+
+    <!-- Collar -->
+    <path d="M245 120 C270 155 330 155 355 120 C335 140 265 140 245 120 Z" fill="#182119" stroke="#485c49" stroke-width="2" />
+    <!-- Sleeve seams -->
+    <path d="M195 205 L215 215" stroke="#374738" stroke-width="2" />
+    <path d="M405 205 L385 215" stroke="#374738" stroke-width="2" />
+
+    <!-- Center Graphic Badge -->
+    <g transform="translate(300, 270)">
+      <circle cx="0" cy="0" r="64" fill="#182219" stroke="#c5ee89" stroke-width="1.5" stroke-opacity="0.7" />
+      <circle cx="0" cy="0" r="58" fill="none" stroke="#c5ee89" stroke-width="1" stroke-dasharray="3 3" stroke-opacity="0.4" />
+      
+      <!-- Mountain & Moon graphic -->
+      <path d="M-30 20 L-10 -15 L10 10 L25 -8 L35 20 Z" fill="#2d3d2f" stroke="#c5ee89" stroke-width="1.8" stroke-linejoin="round" />
+      <circle cx="18" cy="-24" r="7" fill="#c5ee89" />
+      <path d="M-20 20 L20 20" stroke="#c5ee89" stroke-width="1.5" />
+      
+      <text x="0" y="38" text-anchor="middle" fill="#c5ee89" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="700" letter-spacing="2">TOUCH GRASS</text>
+    </g>
+  </g>
+
+  <!-- Tag badge -->
+  <rect x="250" y="520" width="100" height="24" rx="12" fill="#1b241c" stroke="#c5ee89" stroke-opacity="0.3" stroke-width="1" />
+  <text x="300" y="536" text-anchor="middle" fill="#c5ee89" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" letter-spacing="1">100% ORGANIC</text>
+</svg>

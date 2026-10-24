@@ -459,6 +459,48 @@ export default function GrassDetailPage({
           <Icon name="arrow-left" size={16} /> Return to catalog
         </button>
       </footer>
+
+      <section className="field-essentials" aria-labelledby="field-essentials-title">
+        <div className="field-essentials-heading">
+          <div>
+            <p className="eyebrow">A LITTLE PREP GOES A LONG WAY</p>
+            <h2 id="field-essentials-title">Field essentials</h2>
+          </div>
+          <p>Pack for a comfortable, low-impact day outdoors.</p>
+        </div>
+        <div className="field-essentials-grid">
+          <article className="field-essential-card">
+            <span className="field-essential-icon">
+              <Icon name="sprout" size={19} />
+            </span>
+            <div>
+              <span className="field-essential-label">HYDRATION</span>
+              <h3>Bring a refillable water bottle</h3>
+              <p>Stay hydrated and skip single-use plastic on the trail.</p>
+            </div>
+          </article>
+          <article className="field-essential-card">
+            <span className="field-essential-icon">
+              <Icon name="sun" size={19} />
+            </span>
+            <div>
+              <span className="field-essential-label">SUN CARE</span>
+              <h3>Pack sunscreen and a hat</h3>
+              <p>Protect yourself when shade is scarce out in the open.</p>
+            </div>
+          </article>
+          <article className="field-essential-card">
+            <span className="field-essential-icon">
+              <Icon name="mountain" size={19} />
+            </span>
+            <div>
+              <span className="field-essential-label">TRAIL SAFETY</span>
+              <h3>Carry a small first-aid kit</h3>
+              <p>Be ready for minor scrapes and unexpected trail moments.</p>
+            </div>
+          </article>
+        </div>
+      </section>
     </article>
   );
 }

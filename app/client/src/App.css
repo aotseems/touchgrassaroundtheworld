@@ -2,18 +2,23 @@
   min-height: 100vh;
 }
 
-.app-shell {
+:root {
   --page-bg: #111611;
+  --sidebar-bg: #141a14;
   --panel-bg: #171e18;
   --panel-raised: #1c241d;
   --line: rgba(218, 230, 209, 0.09);
   --muted: #949c8e;
   --soft: #c7cdbf;
+  --text-main: #f2f3ed;
   --green: #c5ee89;
   --green-dim: #96bd63;
+}
+
+.app-shell {
   min-height: 100vh;
   background: var(--page-bg);
-  color: #f2f3ed;
+  color: var(--text-main, #f2f3ed);
 }
 
 .sidebar {
@@ -25,7 +30,7 @@
   flex-direction: column;
   padding: 28px 19px 21px;
   border-right: 1px solid var(--line);
-  background: #141a14;
+  background: var(--sidebar-bg, #141a14);
 }
 
 .brand {

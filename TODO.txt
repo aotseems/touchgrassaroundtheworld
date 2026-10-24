@@ -8,6 +8,9 @@ complete :
         proof of touch
         catalog and scale
         grass of the day web
+        merchandise
+        grass around me (GPS 3D)
+        theme setting
 
 todo :
 
@@ -19,7 +22,6 @@ todo :
         settings :
             ภาษา
             Grass setting
-            Theme setting
         
         Filter
         

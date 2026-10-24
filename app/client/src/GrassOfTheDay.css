@@ -3,7 +3,7 @@
   min-height: 345px;
   grid-template-columns: 1.08fr 0.92fr;
   border: 1px solid var(--line);
-  background: #171e18;
+  background: var(--panel-bg, #171e18);
 }
 
 .daily-image {

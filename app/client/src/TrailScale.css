@@ -11,7 +11,7 @@
   gap: 17px;
   padding: 16px 20px;
   border: 1px solid var(--line);
-  background: #171e18;
+  background: var(--panel-bg, #171e18);
   transition:
     border-color 180ms ease,
     background 180ms ease;

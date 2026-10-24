@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
+  <defs>
+    <radialGradient id="pinBg" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#1f2c22" />
+      <stop offset="100%" stop-color="#121813" />
+    </radialGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fdf4b8" />
+      <stop offset="35%" stop-color="#d4af37" />
+      <stop offset="70%" stop-color="#aa820a" />
+      <stop offset="100%" stop-color="#e8c755" />
+    </linearGradient>
+    <filter id="pinShadow" x="-15%" y="-15%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#000" flood-opacity="0.65" />
+    </filter>
+  </defs>
+
+  <rect width="600" height="600" fill="url(#pinBg)" />
+  <circle cx="300" cy="300" r="220" fill="none" stroke="#c5ee89" stroke-opacity="0.08" stroke-dasharray="4 6" />
+
+  <g filter="url(#pinShadow)" transform="translate(300, 290)">
+    <!-- Pin outer bezel -->
+    <polygon points="0,-140 120,-45 75,115 -75,115 -120,-45" fill="url(#goldGrad)" />
+    <!-- Pin inner enamel -->
+    <polygon points="0,-128 108,-40 68,103 -68,103 -108,-40" fill="#142416" stroke="url(#goldGrad)" stroke-width="4" />
+
+    <!-- Enamel Design -->
+    <circle cx="0" cy="-20" r="50" fill="#1c301e" stroke="url(#goldGrad)" stroke-width="3" />
+    <!-- Mountain and Sprout in gold -->
+    <path d="M-35 8 L-10 -30 L15 -2 L28 -16 L38 8 Z" fill="#2d4a30" stroke="url(#goldGrad)" stroke-width="3" stroke-linejoin="round" />
+    <circle cx="20" cy="-35" r="8" fill="url(#goldGrad)" />
+
+    <text x="0" y="55" text-anchor="middle" fill="#d4af37" font-family="Georgia, serif" font-size="13" font-weight="700" letter-spacing="3">VERIFIED</text>
+    <text x="0" y="74" text-anchor="middle" fill="#c5ee89" font-family="system-ui, sans-serif" font-size="9" font-weight="700" letter-spacing="2">GRASS TOUCHER</text>
+  </g>
+
+  <rect x="235" y="525" width="130" height="24" rx="12" fill="#1b241c" stroke="#c5ee89" stroke-opacity="0.3" stroke-width="1" />
+  <text x="300" y="541" text-anchor="middle" fill="#c5ee89" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" letter-spacing="1">HARD ENAMEL • GOLD</text>
+</svg>

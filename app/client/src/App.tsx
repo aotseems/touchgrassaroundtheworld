@@ -6,17 +6,27 @@ import GrassDetailPage from "./components/GrassDetailPage";
 import Catalog, { GrassCardGrid } from "./Catalog";
 import EcoReminder, { EcoReminderBanner } from "./EcoReminder";
 import GrassOfTheDay from "./GrassOfTheDay";
+import GrassAroundMe from "./GrassAroundMe";
 import TrailScale from "./TrailScale";
+import Merchandise from "./Merchandise";
+import ThemeSettings from "./components/ThemeSettings";
+import {
+  applyTheme,
+  getSavedTheme,
+  type ThemeConfig,
+} from "./theme";
 import type Grass from "./grass";
 
-type PageId = "discover" | "daily" | "catalog" | "scale" | "eco";
+type PageId = "discover" | "daily" | "around-me" | "catalog" | "scale" | "eco" | "merchandise";
 
 const navItems: { id: PageId; label: string; icon: string }[] = [
   { id: "discover", label: "Discover", icon: "compass" },
   { id: "daily", label: "Grass of the day", icon: "sun" },
+  { id: "around-me", label: "Grass around me", icon: "radar" },
   { id: "catalog", label: "Grass catalog", icon: "leaf" },
   { id: "scale", label: "Trail scale", icon: "mountain" },
   { id: "eco", label: "Eco reminders", icon: "sprout" },
+  { id: "merchandise", label: "Merchandise", icon: "shopping-bag" },
 ];
 
 function App() {
@@ -27,6 +37,12 @@ function App() {
   const [apiNotice, setApiNotice] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [completedReminders, setCompletedReminders] = useState<number[]>([]);
+  const [theme, setTheme] = useState<ThemeConfig>(() => getSavedTheme());
+  const [isThemeModalOpen, setIsThemeModalOpen] = useState(false);
+
+  useEffect(() => {
+    applyTheme(theme);
+  }, [theme]);
 
   useEffect(() => {
     let isMounted = true;
@@ -240,6 +256,21 @@ function App() {
         </nav>
 
         <div className="sidebar-bottom">
+          <button
+            type="button"
+            className="sidebar-theme-btn"
+            onClick={() => setIsThemeModalOpen(true)}
+            aria-label="Theme settings"
+          >
+            <Icon name="palette" size={16} />
+            <span>Theme Settings</span>
+            <span
+              className="sidebar-theme-indicator"
+              style={{ backgroundColor: theme.accent }}
+              title={`Active theme: ${theme.name}`}
+            />
+          </button>
+
           <div className="sidebar-tip">
             <div className="tip-orbit">
               <Icon name="sun" size={19} />
@@ -290,6 +321,15 @@ function App() {
             )}
           </div>
           <div className="topbar-right">
+            <button
+              type="button"
+              className="theme-btn"
+              onClick={() => setIsThemeModalOpen(true)}
+              title="Change website color theme"
+            >
+              <Icon name="palette" size={13} />
+              <span>{theme.name}</span>
+            </button>
             <span className="weather-label">
               <Icon name="sun" size={15} /> PERFECTLY OUTSIDE WEATHER
             </span>
@@ -343,6 +383,8 @@ function App() {
                 onSelectGrass={openGrassDetail}
                 onBrowseCatalog={() => navigate("catalog")}
               />
+            ) : activePage === "around-me" ? (
+              <GrassAroundMe />
             ) : activePage === "catalog" ? (
               <Catalog
                 grasses={grasses}
@@ -353,6 +395,8 @@ function App() {
               />
             ) : activePage === "scale" ? (
               <TrailScale />
+            ) : activePage === "merchandise" ? (
+              <Merchandise />
             ) : (
               <EcoReminder
                 completedReminders={completedReminders}
@@ -367,6 +411,13 @@ function App() {
           <span>© TOUCH GRASS AROUND THE WORLD</span>
         </footer>
       </main>
+
+      <ThemeSettings
+        isOpen={isThemeModalOpen}
+        onClose={() => setIsThemeModalOpen(false)}
+        currentTheme={theme}
+        onThemeChange={setTheme}
+      />
     </div>
   );
 }

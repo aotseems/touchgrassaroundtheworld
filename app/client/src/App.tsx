@@ -117,12 +117,6 @@ function App() {
     );
   };
 
-  const filteredGrasses = grasses.filter((grass) =>
-    `${grass.name} ${grass.location} ${grass.biome}`
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase()),
-  );
-
   const renderDiscover = () => (
     <>
       <section className="hero-panel reveal">
@@ -351,7 +345,7 @@ function App() {
               />
             ) : activePage === "catalog" ? (
               <Catalog
-                grasses={filteredGrasses}
+                grasses={grasses}
                 onSelectGrass={openGrassDetail}
                 searchTerm={searchTerm}
                 onSearchTermChange={setSearchTerm}

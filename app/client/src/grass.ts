@@ -5,7 +5,7 @@ export default interface Grass {
   biome: string;
   latitude: number;
   longitude: number;
-  longtitude?: number;
+  longtitude: number;
   brief: string;
   description: string;
   imageUrl: string;

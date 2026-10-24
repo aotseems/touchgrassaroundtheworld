@@ -55,9 +55,13 @@ export default function GrassDetailPage({
         // If we don't already have the grass from props, show an error state
         if (!initialGrass || initialGrass.id !== grassId) {
           if (axios.isAxiosError(err) && err.response?.status === 404) {
-            setError(`Field note #${grassId} could not be found in the catalog.`);
+            setError(
+              `Field note #${grassId} could not be found in the catalog.`,
+            );
           } else {
-            setError("Could not connect to the database. Showing offline view if available.");
+            setError(
+              "Could not connect to the database. Showing offline view if available.",
+            );
           }
         }
         setLoading(false);
@@ -151,10 +155,7 @@ export default function GrassDetailPage({
   const lngFormatted = `${Math.abs(longitude).toFixed(4)}° ${longitude >= 0 ? "E" : "W"}`;
   const coordinatesString = `${latFormatted}  ${lngFormatted}`;
 
-  const descriptionText =
-    grass.description && grass.description.trim().length > 0
-      ? grass.description
-      : `${grass.name} is an indigenous component of the ${grass.biome.toLowerCase()} biome in ${grass.location}. Its unique resilience allows it to thrive in local climate patterns, offering vital soil stabilization and natural shelter for small ground dwellers. Wandering along trails lined with this species offers an intimate connection to the living topography of the region.`;
+  const descriptionText = grass.description;
 
   return (
     <article className="grass-detail-page">
@@ -240,7 +241,9 @@ export default function GrassDetailPage({
         <span className="spec-separator" />
         <div className="spec-item">
           <span className="spec-label">CATALOG ID</span>
-          <span className="spec-value">#{String(grass.id).padStart(3, "0")}</span>
+          <span className="spec-value">
+            #{String(grass.id).padStart(3, "0")}
+          </span>
         </div>
       </section>
 
@@ -385,11 +388,7 @@ export default function GrassDetailPage({
 
       {/* Footer navigation */}
       <footer className="detail-footer-nav">
-        <button
-          className="button button-light"
-          type="button"
-          onClick={onBack}
-        >
+        <button className="button button-light" type="button" onClick={onBack}>
           <Icon name="arrow-left" size={16} /> Return to catalog
         </button>
       </footer>

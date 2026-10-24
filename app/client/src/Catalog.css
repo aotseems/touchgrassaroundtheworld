@@ -1,0 +1,254 @@
+.empty-state h2 {
+  margin: 9px 0 0;
+  color: #ecede5;
+  font-family: var(--heading);
+  font-size: 27px;
+  font-weight: 450;
+  letter-spacing: -1.2px;
+  line-height: 1.13;
+}
+
+.grass-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.grass-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: #171d17;
+  cursor: pointer;
+  transition:
+    transform 200ms ease,
+    border-color 200ms ease;
+}
+
+.grass-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(197, 238, 137, 0.24);
+}
+
+.grass-card-image {
+  position: relative;
+  height: 140px;
+  background-color: #334132;
+  background-position: center;
+  background-size: cover;
+}
+
+.grass-card-image::after {
+  position: absolute;
+  inset: 45% 0 0;
+  background: linear-gradient(transparent, rgba(11, 15, 11, 0.23));
+  content: "";
+  pointer-events: none;
+}
+
+.biome-tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 0 8px;
+  border: 1px solid rgba(225, 240, 205, 0.13);
+  background: rgba(18, 25, 17, 0.78);
+  color: #d9e6c8;
+  font-size: 8px;
+  letter-spacing: 0.4px;
+}
+
+.grass-card-image .biome-tag {
+  position: absolute;
+  z-index: 1;
+  bottom: 10px;
+  left: 10px;
+}
+
+.save-button {
+  position: absolute;
+  z-index: 1;
+  top: 10px;
+  right: 10px;
+  display: grid;
+  width: 29px;
+  height: 29px;
+  place-items: center;
+  border: 1px solid rgba(240, 245, 232, 0.2);
+  background: rgba(14, 19, 14, 0.58);
+  color: #f1f3e9;
+  cursor: pointer;
+  transition:
+    background 160ms ease,
+    color 160ms ease;
+}
+
+.save-button:hover {
+  background: var(--green);
+  color: #192118;
+}
+
+.grass-card-copy {
+  min-height: 149px;
+  padding: 14px 13px 16px;
+}
+
+.grass-card-copy .eyebrow {
+  font-size: 8px;
+  letter-spacing: 0.8px;
+}
+
+.grass-card-copy h3 {
+  margin: 6px 0;
+  color: #e7eae0;
+  font-family: var(--heading);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.25px;
+}
+
+.card-brief {
+  min-height: 34px;
+  color: #969e90;
+  font-size: 9px;
+  line-height: 1.6;
+}
+
+.grass-card-copy .text-link {
+  margin-top: 10px;
+  font-size: 8px;
+}
+
+.card-index {
+  position: absolute;
+  right: 12px;
+  bottom: 13px;
+  color: #636d5d;
+  font-family: var(--heading);
+  font-size: 10px;
+}
+
+.search-box {
+  display: flex;
+  height: 49px;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 20px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  background: #171e18;
+  color: #8f9b86;
+}
+
+.search-box input {
+  width: 100%;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: #eff1e9;
+  font-family: var(--sans);
+  font-size: 11px;
+}
+
+.search-box input::placeholder {
+  color: #737c6f;
+}
+
+.search-box > span {
+  flex: 0 0 auto;
+  color: #788271;
+  font-size: 8px;
+  letter-spacing: 0.9px;
+}
+
+.empty-state {
+  display: flex;
+  min-height: 240px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed rgba(218, 230, 209, 0.13);
+  color: var(--green);
+  text-align: center;
+}
+
+.empty-state h2 {
+  font-size: 20px;
+}
+
+.empty-state p {
+  margin-top: 8px;
+  color: #9da596;
+  font-size: 10px;
+}
+
+.grass-card:nth-child(2) {
+  transition-delay: 75ms;
+}
+
+.grass-card:nth-child(3) {
+  transition-delay: 140ms;
+}
+
+@media (max-width: 1100px) {
+  .grass-grid {
+    gap: 10px;
+  }
+
+  .grass-card-image {
+    height: 120px;
+  }
+}
+
+@media (max-width: 600px) {
+  .grass-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .grass-card {
+    display: grid;
+    min-height: 156px;
+    grid-template-columns: 40% 1fr;
+  }
+
+  .grass-card-image {
+    height: 100%;
+    min-height: 156px;
+  }
+
+  .grass-card-image .biome-tag {
+    right: 7px;
+    bottom: 8px;
+    left: 7px;
+    justify-content: center;
+    min-height: 19px;
+    padding: 0 4px;
+    font-size: 7px;
+  }
+
+  .save-button {
+    top: 7px;
+    right: 7px;
+    width: 25px;
+    height: 25px;
+  }
+
+  .grass-card-copy {
+    min-height: 0;
+    padding: 13px 11px;
+  }
+
+  .grass-card-copy h3 {
+    font-size: 14px;
+  }
+
+  .card-brief {
+    min-height: 0;
+  }
+
+  .card-index {
+    right: 10px;
+    bottom: 9px;
+  }
+}

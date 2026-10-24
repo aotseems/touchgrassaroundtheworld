@@ -1,0 +1,129 @@
+.scale-list {
+  display: grid;
+  gap: 11px;
+}
+
+.scale-card {
+  display: grid;
+  min-height: 112px;
+  grid-template-columns: 33px 48px minmax(0, 1fr) auto 18px;
+  align-items: center;
+  gap: 17px;
+  padding: 16px 20px;
+  border: 1px solid var(--line);
+  background: #171e18;
+  transition:
+    border-color 180ms ease,
+    background 180ms ease;
+}
+
+.scale-card:hover {
+  border-color: rgba(197, 238, 137, 0.23);
+  background: #1a221b;
+}
+
+.scale-number {
+  align-self: start;
+  padding-top: 3px;
+  color: #6b7566;
+  font-family: var(--heading);
+  font-size: 11px;
+}
+
+.scale-icon {
+  display: grid;
+  width: 43px;
+  height: 43px;
+  place-items: center;
+  border: 1px solid rgba(197, 238, 137, 0.14);
+  background: rgba(197, 238, 137, 0.06);
+  color: var(--green);
+}
+
+.scale-copy .eyebrow {
+  font-size: 8px;
+  letter-spacing: 1px;
+}
+
+.scale-copy h2 {
+  margin: 3px 0;
+  font-size: 18px;
+}
+
+.scale-copy > p:last-child {
+  color: #99a192;
+  font-size: 9px;
+}
+
+.scale-distance {
+  padding: 6px 9px;
+  border: 1px solid var(--line);
+  color: #cbd2c3;
+  font-size: 9px;
+}
+
+.scale-card > svg {
+  color: #798372;
+}
+
+.safety-note {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+  color: #9aa290;
+  font-size: 9px;
+}
+
+.safety-note svg {
+  color: var(--green);
+}
+
+.scale-card:nth-child(2) {
+  transition-delay: 75ms;
+}
+
+.scale-card:nth-child(3) {
+  transition-delay: 140ms;
+}
+
+@media (max-width: 1100px) {
+  .scale-card {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 600px) {
+  .scale-card {
+    min-height: 103px;
+    grid-template-columns: 20px 37px minmax(0, 1fr) 17px;
+    gap: 9px;
+    padding: 13px 10px;
+  }
+
+  .scale-icon {
+    width: 35px;
+    height: 35px;
+  }
+
+  .scale-copy h2 {
+    font-size: 15px;
+  }
+
+  .scale-copy > p:last-child {
+    font-size: 8px;
+    line-height: 1.5;
+  }
+
+  .scale-distance {
+    grid-column: 3;
+    justify-self: start;
+    padding: 4px 7px;
+    font-size: 8px;
+  }
+
+  .scale-card > svg {
+    grid-column: 4;
+    grid-row: 1 / 3;
+  }
+}

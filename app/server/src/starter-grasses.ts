@@ -1,4 +1,4 @@
-import { GrassWithoutId } from "@repo/shared-types";
+import { GrassWithoutId } from "./grass";
 
 export const starterGrasses: GrassWithoutId[] = [
   {

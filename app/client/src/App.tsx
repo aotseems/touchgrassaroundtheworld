@@ -7,11 +7,7 @@ import Catalog, { GrassCardGrid } from "./Catalog";
 import GrassOfTheDay from "./GrassOfTheDay";
 import Merchandise from "./Merchandise";
 import ThemeSettings from "./components/ThemeSettings";
-import {
-  applyTheme,
-  getSavedTheme,
-  type ThemeConfig,
-} from "./theme";
+import { applyTheme, getSavedTheme, type ThemeConfig } from "./theme";
 import type Grass from "./grass";
 
 type PageId = "discover" | "daily" | "catalog" | "merchandise";
@@ -43,8 +39,8 @@ function App() {
     const fetchGrasses = async () => {
       try {
         const [catalogResponse, dailyResponse] = await Promise.allSettled([
-          axios.get<Grass[]>("http://localhost:3000/grasses"),
-          axios.get<Grass>("http://localhost:3000/grass-of-the-day"),
+          axios.get<Grass[]>("/api/grasses"),
+          axios.get<Grass>("/api/grass-of-the-day"),
         ]);
         if (!isMounted) return;
 
@@ -201,7 +197,6 @@ function App() {
           onSelectGrass={openGrassDetail}
         />
       </section>
-
     </>
   );
 
@@ -229,7 +224,11 @@ function App() {
               className={`nav-item${activePage === item.id && selectedGrassId === null ? " active" : ""}`}
               key={item.id}
               type="button"
-              aria-current={activePage === item.id && selectedGrassId === null ? "page" : undefined}
+              aria-current={
+                activePage === item.id && selectedGrassId === null
+                  ? "page"
+                  : undefined
+              }
               onClick={() => navigate(item.id)}
             >
               <Icon name={item.icon} size={18} />
@@ -290,7 +289,9 @@ function App() {
                 </button>
                 <span className="breadcrumb-slash">/</span>
                 <span>
-                  {grasses.find((g) => g.id === selectedGrassId)?.name.toUpperCase() ||
+                  {grasses
+                    .find((g) => g.id === selectedGrassId)
+                    ?.name.toUpperCase() ||
                     (grassOfTheDay?.id === selectedGrassId
                       ? grassOfTheDay.name.toUpperCase()
                       : `NOTE #${selectedGrassId}`)}
@@ -333,7 +334,11 @@ function App() {
               className={`mobile-nav-item${activePage === item.id && selectedGrassId === null ? " active" : ""}`}
               key={item.id}
               type="button"
-              aria-current={activePage === item.id && selectedGrassId === null ? "page" : undefined}
+              aria-current={
+                activePage === item.id && selectedGrassId === null
+                  ? "page"
+                  : undefined
+              }
               onClick={() => navigate(item.id)}
             >
               <Icon name={item.icon} size={17} />
@@ -344,7 +349,9 @@ function App() {
 
         <div
           className="page-content"
-          key={selectedGrassId !== null ? `grass-${selectedGrassId}` : activePage}
+          key={
+            selectedGrassId !== null ? `grass-${selectedGrassId}` : activePage
+          }
         >
           {selectedGrassId !== null ? (
             <GrassDetailPage
@@ -357,27 +364,25 @@ function App() {
               onBack={closeGrassDetail}
               onSelectGrass={openGrassDetail}
             />
+          ) : activePage === "discover" ? (
+            renderDiscover()
+          ) : activePage === "daily" ? (
+            <GrassOfTheDay
+              grass={grassOfTheDay}
+              apiNotice={apiNotice}
+              onSelectGrass={openGrassDetail}
+              onBrowseCatalog={() => navigate("catalog")}
+            />
+          ) : activePage === "catalog" ? (
+            <Catalog
+              grasses={grasses}
+              onSelectGrass={openGrassDetail}
+              searchTerm={searchTerm}
+              onSearchTermChange={setSearchTerm}
+              apiNotice={apiNotice}
+            />
           ) : (
-            activePage === "discover" ? (
-              renderDiscover()
-            ) : activePage === "daily" ? (
-              <GrassOfTheDay
-                grass={grassOfTheDay}
-                apiNotice={apiNotice}
-                onSelectGrass={openGrassDetail}
-                onBrowseCatalog={() => navigate("catalog")}
-              />
-            ) : activePage === "catalog" ? (
-              <Catalog
-                grasses={grasses}
-                onSelectGrass={openGrassDetail}
-                searchTerm={searchTerm}
-                onSearchTermChange={setSearchTerm}
-                apiNotice={apiNotice}
-              />
-            ) : (
-              <Merchandise />
-            )
+            <Merchandise />
           )}
         </div>
 

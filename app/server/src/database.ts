@@ -1,4 +1,4 @@
-import { Grass, GrassWithoutId } from "@repo/shared-types";
+import { Grass, GrassWithoutId } from "./grass";
 import Database from "better-sqlite3";
 import BetterSqlite3 from "better-sqlite3";
 import { starterGrasses } from "./starter-grasses";

@@ -43,7 +43,7 @@ export default function GrassDetailPage({
     const fetchGrassById = async () => {
       try {
         const response = await axios.get<Grass>(
-          `http://localhost:3000/grass-by-id?id=${grassId}`,
+          `/api/grass-by-id?id=${grassId}`,
         );
         if (isMounted) {
           setGrass(response.data);
@@ -157,7 +157,9 @@ export default function GrassDetailPage({
 
   const descriptionText = grass.description;
 
-  const sourcesList: string[] = Array.isArray(grass.sources) ? grass.sources : [];
+  const sourcesList: string[] = Array.isArray(grass.sources)
+    ? grass.sources
+    : [];
 
   return (
     <article className="grass-detail-page">
@@ -460,7 +462,10 @@ export default function GrassDetailPage({
         </button>
       </footer>
 
-      <section className="field-essentials" aria-labelledby="field-essentials-title">
+      <section
+        className="field-essentials"
+        aria-labelledby="field-essentials-title"
+      >
         <div className="field-essentials-heading">
           <div>
             <p className="eyebrow">A LITTLE PREP GOES A LONG WAY</p>

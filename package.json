@@ -2,8 +2,7 @@
   "name": "touchgrassaroundtheworld",
   "private": true,
   "workspaces": [
-    "app/*",
-    "packages/*"
+    "app/*"
   ],
   "repository": {
     "type": "git",
@@ -20,7 +19,8 @@
     "vite": "^8.3.5"
   },
   "scripts": {
-    "dev": "vite"
+    "build": "npm run build -w server && npm run build -w client",
+    "start": "node ./app/server/dist/index.js"
   },
   "dependencies": {
     "axios": "^1.20.0",
